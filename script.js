@@ -80,60 +80,30 @@ function forEach(list, fun, index=0){
  * proposito: compila nuestro código y lo presenta en la ventana de visualización. Es lo mismo que pulsar el botón "PLAY".
  */
 function sketchProc(processing) {
-  /**
-   * 
-   */
+  
   processing.setup = function () {
     processing.frameRate(4); // FPS
     processing.size(WIDTH, HEIGHT);//Load canvas
     
-    gblue = processing.loadImage("images/blue.png");//Load a blue ghost
-    goran = processing.loadImage("images/orange.png");//Load a orange ghost
-    gpink = processing.loadImage("images/pink.png");//Load a pink ghost
-    gred = processing.loadImage("images/red.png");//Load a red ghost
-    PACMANL= processing.loadImage("images/pacmanleft2.png");
-    PACMANR = processing.loadImage("images/pacmanright2.png");
-    PACMANU = processing.loadImage("images/pacmanup2.png");
-    PACMAND = processing.loadImage("images/pacmandown2.png");
-    PACMANC = processing.loadImage("images/pacmanclose2.png");
-    
+    gblue = processing.loadImage("images/blue.png");//Carga un fantasma azul
+    goran = processing.loadImage("images/orange.png");//Carga un fantasma naranja
+    gpink = processing.loadImage("images/pink.png");//Carga un fantasma rosa
+    gred = processing.loadImage("images/red.png");//Carga un fantasma rojo
+    PACMANL= processing.loadImage("images/pacmanleft2.png");//Carga  imagen PacmanLeft  
+    PACMANR = processing.loadImage("images/pacmanright2.png");//Carga  imagen PacmanRight 
+    PACMANU = processing.loadImage("images/pacmanup2.png");//Carga  imagen PacmanUp
+    PACMAND = processing.loadImage("images/pacmandown2.png");//Carga  imagen PacmanDown
+    PACMANC = processing.loadImage("images/pacmanclose2.png");//Carga  imagen PacmanClose
+
+    //Condiciones iniciales
     processing.state = {
       time:0,
       score:0,
-      
-      pacman:{
-        x:9,
-        y:16,
-        dir:"L"
-      },
-
-      ghosthb:
-        {
-          x:1,
-          y:1
-        },
-
-      ghostho:
-        {
-          x:5,
-          y:16
-        },
-    
-      ghosthp:
-        {
-          x:12,
-          y:1
-        },
-
-      ghosthr:
-        {
-          x:12,
-          y:1
-        },
-
-      border:
-          {x:18,
-          y:0},
+      pacman:{x:9,y:16,dir:"L"},
+      ghosthb:{x:1,y:1},
+      ghostho:{x:5,y:16},
+      ghosthp:{x:12,y:1},
+      ghosthr:{x:12,y:1},
     }
   }
 /**
@@ -145,13 +115,10 @@ function sketchProc(processing) {
     //console.log(world.pacman.x, world.pacman.y)
     processing.background(0,0,0)
     
-
-    
     forEach(MAPA, (fila, i) =>{
       forEach(fila, (block, j) =>{
 
-      //Draw Pacman
-
+      //Dibuja el Pacman
         if(block == 1){
           if(world.pacman.dir == "L" && world.time % 2 == 0){
             processing.image(PACMANL,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
@@ -170,12 +137,12 @@ function sketchProc(processing) {
           }
       }
     
-        //Draw block
+        //Dibuja los bloques
         if(block == 2){
           processing.fill(0,255,0);
           processing.rect(j*BSIZE, i*BSIZE, BSIZE-2, BSIZE-2,5,5,5);
         }
-        //Draw Cookie
+        //Dibuja una galleta
         if(block == 3){
           if(world.time % 2 == 1){
           processing.fill(250, 200 , 30);
@@ -186,7 +153,7 @@ function sketchProc(processing) {
           processing.ellipse(j*BSIZE+BSIZE/2, i*BSIZE+BSIZE/2, BSIZE/5, BSIZE/5)
           }
         }
-        //Draw Big Cookie
+        //Dibuja una galleta grande
         if(block == 4){
           if(world.time % 2 == 1){
           processing.fill(250, 200 , 30);
@@ -197,14 +164,14 @@ function sketchProc(processing) {
           processing.ellipse(j*BSIZE+BSIZE/2, i*BSIZE+BSIZE/2, BSIZE/2, BSIZE/2)
           }
         }
-        //Draw Lifes 
+        //Dibuja Vidas
         if(block == "life"){
           processing.fill(255, 255, 0); //Pacman Color
           processing.arc(j * BSIZE+BSIZE/2, 
             i * BSIZE+BSIZE/2, BSIZE, BSIZE,-Math.PI * 3 / 4, Math.PI * 3 / 4);
         }
         
-        //Draw ghosts
+        //Dibuja Fantasmas
         if(block == 5){
           processing.image(gblue,j * BSIZE,i * BSIZE,22,22) 
         }
@@ -232,7 +199,7 @@ function sketchProc(processing) {
     //Dibuja texto en la pantalla. Muestra posición especificada por los parámetros adicionales
     
     processing.text("HIGH SCORE",220,500);
-    processing.text(world.score,220,520);
+    processing.text(world.score,220,520); //Actualiza el puntaje y lo muestra en la interfaz
 
     const se = processing.second();
     const mi = processing.minute();
@@ -251,14 +218,14 @@ function sketchProc(processing) {
 processing.onKeyEvent = function(world, keyCode){
   console.log(keyCode)
 
-  if(keyCode == processing.LEFT  ){
+  if(keyCode == processing.LEFT  ){ //Representa hacia donde se dará el movimiento del pacman
 
     waka.play()
     waka.volume = 0.03;
 
-    if( MAPA[world.pacman.y][world.pacman.x -  1] == 0){
-      MAPA[world.pacman.y][world.pacman.x -  1] = 1
-      MAPA[world.pacman.y][world.pacman.x] = 0
+    if( MAPA[world.pacman.y][world.pacman.x -  1] == 0){ //Mueve el pacman a la izquierda si no hay bloqueo
+      MAPA[world.pacman.y][world.pacman.x -  1] = 1 //Reemplaza con 1 para representar la posición del pacman
+      MAPA[world.pacman.y][world.pacman.x] = 0 //La posición anterior la deja vacía 
     return make(world, {
       pacman:{
         x: world.pacman.x - 1,
@@ -267,7 +234,7 @@ processing.onKeyEvent = function(world, keyCode){
       }
     })
     }
-    else if(MAPA[world.pacman.y][world.pacman.x - 1 ] == 3){
+    else if(MAPA[world.pacman.y][world.pacman.x - 1 ] == 3){ //Mueve el pacman a la izquierda y se come la galleta
       MAPA[world.pacman.y][world.pacman.x - 1] = 1
       MAPA[world.pacman.y][world.pacman.x] = 0
       return make(world, {
@@ -279,7 +246,7 @@ processing.onKeyEvent = function(world, keyCode){
         score: world.score = world.score + 1
       })
     }
-    else if(MAPA[world.pacman.y][world.pacman.x - 1 ] == 4){
+    else if(MAPA[world.pacman.y][world.pacman.x - 1 ] == 4){ //Mueve el pacman a la izquierda y se come la galleta
       MAPA[world.pacman.y][world.pacman.x - 1] = 1
       MAPA[world.pacman.y][world.pacman.x] = 0
       return make(world, {
@@ -291,7 +258,7 @@ processing.onKeyEvent = function(world, keyCode){
         score: world.score = world.score + 20
       })
     }
-    else if(MAPA[world.pacman.y][world.pacman.x - 1 ] == 11){
+    else if(MAPA[world.pacman.y][world.pacman.x - 1 ] == 11){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
       MAPA[world.pacman.y][world.pacman.x - 1] = 11
       MAPA[world.pacman.y][world.pacman.x] = 0
       return make(world, {
@@ -302,7 +269,7 @@ processing.onKeyEvent = function(world, keyCode){
         }
       })
     }
-    else{
+    else{ //Si no ocurre ninguna de las anteriores es porque hay un bloque entonces no deja mover el pacman
       return make(world, {
         pacman:{
           x: world.pacman.x,
@@ -352,7 +319,7 @@ processing.onKeyEvent = function(world, keyCode){
         score: world.score = world.score + 20
       })
     }
-    else if(MAPA[world.pacman.y][world.pacman.x + 1 ] == 12){
+    else if(MAPA[world.pacman.y][world.pacman.x + 1 ] == 12){//Teletransporta el pacman del pasillo derecho al  izquierdo
       MAPA[world.pacman.y][world.pacman.x + 1] = 12
       MAPA[world.pacman.y][world.pacman.x] = 0
       return make(world, {
