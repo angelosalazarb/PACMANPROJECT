@@ -99,14 +99,13 @@ function sketchProc(processing) {
     
     processing.state = {
       time:0,
+      score:0,
       
       pacman:{
         x:9,
         y:16,
         dir:"L"
       },
-
-      score:0,
 
       ghosthb:
         {
@@ -154,23 +153,21 @@ function sketchProc(processing) {
       //Draw Pacman
 
         if(block == 1){
-          if(world.time % 2 == 0){
-            if(world.pacman.dir == "L"){
+          if(world.pacman.dir == "L" && world.time % 2 == 0){
             processing.image(PACMANL,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
           }
-          else if(world.pacman.dir == "R"){
+          else if(world.pacman.dir == "R" && world.time % 2 == 0){
             processing.image(PACMANR,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
           }
-          else if(world.pacman.dir == "U"){
+          else if(world.pacman.dir == "U" && world.time % 2 == 0){
             processing.image(PACMANU,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
           }
-          else if(world.pacman.dir == "D"){
+          else if(world.pacman.dir == "D" && world.time % 2 == 0){
             processing.image(PACMAND,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
           }
-        }
-        else{
+          else{
             processing.image(PACMANC,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);  
-        }
+          }
       }
     
         //Draw block
@@ -235,7 +232,7 @@ function sketchProc(processing) {
     //Dibuja texto en la pantalla. Muestra posición especificada por los parámetros adicionales
     
     processing.text("HIGH SCORE",220,500);
-    processing.text("0000",220,520);
+    processing.text(world.score,220,520);
 
     const se = processing.second();
     const mi = processing.minute();
@@ -278,7 +275,8 @@ processing.onKeyEvent = function(world, keyCode){
           x: world.pacman.x - 1,
           y: world.pacman.y,
           dir: "L"
-        }
+        },
+        score: world.score = world.score + 1
       })
     }
     else if(MAPA[world.pacman.y][world.pacman.x - 1 ] == 4){
@@ -289,7 +287,8 @@ processing.onKeyEvent = function(world, keyCode){
           x: world.pacman.x - 1,
           y: world.pacman.y,
           dir: "L"
-        }
+        },
+        score: world.score = world.score + 20
       })
     }
     else if(MAPA[world.pacman.y][world.pacman.x - 1 ] == 11){
@@ -337,7 +336,8 @@ processing.onKeyEvent = function(world, keyCode){
           x: world.pacman.x + 1,
           y: world.pacman.y,
           dir: "R"
-        }
+        },
+        score: world.score = world.score + 1
       })
     }
     else if(MAPA[world.pacman.y][world.pacman.x +1 ] == 4){
@@ -348,7 +348,8 @@ processing.onKeyEvent = function(world, keyCode){
           x: world.pacman.x + 1,
           y: world.pacman.y,
           dir: "R"
-        }
+        },
+        score: world.score = world.score + 20
       })
     }
     else if(MAPA[world.pacman.y][world.pacman.x + 1 ] == 12){
@@ -399,7 +400,8 @@ processing.onKeyEvent = function(world, keyCode){
           x: world.pacman.x,
           y: world.pacman.y - 1,
           dir: "U"
-        }
+        },
+        score: world.score = world.score + 1
       })
     }
     else if(MAPA[world.pacman.y - 1][world.pacman.x] == 4){
@@ -410,7 +412,8 @@ processing.onKeyEvent = function(world, keyCode){
           x: world.pacman.x,
           y: world.pacman.y - 1,
           dir: "U"
-        }
+        },
+        score: world.score = world.score + 20
       })
     }
     else{
@@ -452,7 +455,8 @@ processing.onKeyEvent = function(world, keyCode){
           x: world.pacman.x,
           y: world.pacman.y + 1,
           dir: "D"
-        }
+        },
+        score: world.score = world.score + 1
       })
     }
     else if(MAPA[world.pacman.y + 1][world.pacman.x] == 4){
@@ -463,7 +467,8 @@ processing.onKeyEvent = function(world, keyCode){
           x: world.pacman.x,
           y: world.pacman.y + 1,
           dir: "D"
-        }
+        },
+        score: world.score = world.score + 20
       })
     }
     else{
