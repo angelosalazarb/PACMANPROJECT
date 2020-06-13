@@ -1,7 +1,7 @@
 //Librería functional-light
 let { append, cons, first, isEmpty, isList, length, rest } = functionalLight;
 
-//Variables globales y archivos.
+//Variables globales y  cargar archivos.
 const waka = new Audio("sound/waka_waka.mp3");
 const music = new Audio("sound/music.mp3");
 const ghostD = new Audio("ghost_dead.mp3");
@@ -25,7 +25,6 @@ var PACMANC = null;
  * Contrato: <make><estructura>---><estructura>
  * proposito: Retorna una copia del mundo que puede ser modificada
  */
-
 function make(data, attribute) {
   return Object.assign({}, data, attribute);
 }
@@ -150,6 +149,8 @@ function sketchProc(processing) {
     forEach(MAPA, (fila, i) =>{
       forEach(fila, (block, j) =>{
 
+      //Draw Pacman
+
         if(block == 1){
           processing.fill(255, 255, 0); //Pacman Color
           if(world.time % 2 ==0 ){
@@ -162,13 +163,13 @@ function sketchProc(processing) {
             world.pacman.y * BSIZE+BSIZE/2, BSIZE, BSIZE, 0, Math.PI * 2); 
           }
         }
-
+        //Draw block
         if(block == 2){
           processing.fill(0,255,0);
           processing.rect(j*BSIZE, i*BSIZE, BSIZE-2, BSIZE-2,5,5,5);
           
         }
-        
+        //Draw Cookie
         if(block == 3){
           if(world.time % 2 == 1){
           processing.fill(250, 200 , 30);
@@ -179,7 +180,7 @@ function sketchProc(processing) {
           processing.ellipse(j*BSIZE+BSIZE/2, i*BSIZE+BSIZE/2, BSIZE/5, BSIZE/5)
           }
         }
-      
+        //Draw Big Cookie
         if(block == 4){
           if(world.time % 2 == 1){
           processing.fill(250, 200 , 30);
@@ -190,23 +191,14 @@ function sketchProc(processing) {
           processing.ellipse(j*BSIZE+BSIZE/2, i*BSIZE+BSIZE/2, BSIZE/2, BSIZE/2)
           }
         }
-
+        //Draw Lifes 
         if(block == "life"){
           processing.fill(255, 255, 0); //Pacman Color
           processing.arc(j * BSIZE+BSIZE/2, 
             i * BSIZE+BSIZE/2, BSIZE, BSIZE,-Math.PI * 3 / 4, Math.PI * 3 / 4);
         }
         
-        if(block == "b"){
-          processing.fill(255,255,255);
-          processing.rect(j*BSIZE+6, i*BSIZE, BSIZE-12, BSIZE)
-        }
-
-        if(block == "h"){
-          processing.fill(255,255,255);
-          processing.rect(j * BSIZE+6, i * BSIZE+6, BSIZE, BSIZE-12)
-        }
-
+        //Draw ghosts
         if(block == 5){
           processing.image(gblue,j * BSIZE,i * BSIZE,22,22) 
         }
@@ -254,30 +246,57 @@ processing.onKeyEvent = function(world, keyCode){
   console.log(keyCode)
 
   if(keyCode == processing.LEFT  ){
+
     waka.play()
     waka.volume = 0.03;
-    //var i= (Math.PI/180)*45
-    //pacman.rotate(i)
-    //pacman.resetMatrix()
-    //pacman.rotate(-i/2);
-    
+
+    if( MAPA[world.pacman.y][world.pacman.x -  1] == 0){
+      MAPA[world.pacman.y][world.pacman.x -  1] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
     return make(world, {
       pacman:{
         x: world.pacman.x - 1,
         y: world.pacman.y
-        
-        }//Corchete estructura pacman
-      })  //Corchete parentesis make 
-    } //Corchete if
+      }
+    })
+    }
+    else if(MAPA[world.pacman.y][world.pacman.x - 1 ] == 3){
+      MAPA[world.pacman.y][world.pacman.x - 1] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: world.pacman.x - 1,
+          y: world.pacman.y
+        }
+      })
+    }
+    else if(MAPA[world.pacman.y][world.pacman.x - 1 ] == 4){
+      MAPA[world.pacman.y][world.pacman.x - 1] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: world.pacman.x - 1,
+          y: world.pacman.y
+        }
+      })
+    }
+    else{
+      return make(world, {
+        pacman:{
+          x: world.pacman.x,
+          y: world.pacman.y
+        }
+      })
+    }
+    } 
 
   if(keyCode == processing.RIGHT){
     waka.play()
     waka.volume = 0.03;
     
-    if( world.pacman.x/BSIZE +1, world.pacman.y/BSIZE ){
-
-     
-  
+    if( MAPA[world.pacman.y][world.pacman.x +  1] == 0){
+      MAPA[world.pacman.y][world.pacman.x +  1] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
     return make(world, {
       pacman:{
         x: world.pacman.x + 1,
@@ -285,39 +304,127 @@ processing.onKeyEvent = function(world, keyCode){
       }
     })
     }
+    else if(MAPA[world.pacman.y][world.pacman.x +1 ] == 3){
+      MAPA[world.pacman.y][world.pacman.x + 1] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: world.pacman.x + 1,
+          y: world.pacman.y
+        }
+      })
+    }
+    else if(MAPA[world.pacman.y][world.pacman.x +1 ] == 4){
+      MAPA[world.pacman.y][world.pacman.x + 1] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: world.pacman.x + 1,
+          y: world.pacman.y
+        }
+      })
+    }
+    else{
+      return make(world, {
+        pacman:{
+          x: world.pacman.x,
+          y: world.pacman.y
+        }
+      })
+    }
   }
   
-    //var i= (Math.PI/180)*45
-    //pacman.rotate(i)
-    //pacman.resetMatrix()
-    //pacman.rotate(-i/2);
+
   
   
   if(keyCode == processing.UP){
     waka.play()
     waka.volume = 0.03;
     
+    if( MAPA[world.pacman.y - 1][world.pacman.x] == 0){
+      MAPA[world.pacman.y - 1][world.pacman.x] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
     return make(world, {
       pacman:{
         x: world.pacman.x,
         y: world.pacman.y - 1
-        
       }
     })
+    }
+    else if(MAPA[world.pacman.y - 1][world.pacman.x] == 3){
+      MAPA[world.pacman.y - 1][world.pacman.x] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: world.pacman.x,
+          y: world.pacman.y - 1
+        }
+      })
+    }
+    else if(MAPA[world.pacman.y - 1][world.pacman.x] == 4){
+      MAPA[world.pacman.y - 1][world.pacman.x] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: world.pacman.x,
+          y: world.pacman.y - 1
+        }
+      })
+    }
+    else{
+      return make(world, {
+        pacman:{
+          x: world.pacman.x,
+          y: world.pacman.y
+        }
+      })
+    }
   }
   
   if(keyCode == processing.DOWN){
     waka.play()
     waka.volume = 0.03;
 
+    if( MAPA[world.pacman.y + 1][world.pacman.x] == 0){
+      MAPA[world.pacman.y + 1][world.pacman.x] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
     return make(world, {
       pacman:{
         x: world.pacman.x,
         y: world.pacman.y + 1
+      }
+    })
+    }
+    else if(MAPA[world.pacman.y + 1][world.pacman.x] == 3){
+      MAPA[world.pacman.y + 1][world.pacman.x] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: world.pacman.x,
+          y: world.pacman.y + 1
         }
       })
     }
-         }
+    else if(MAPA[world.pacman.y + 1][world.pacman.x] == 4){
+      MAPA[world.pacman.y + 1][world.pacman.x] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: world.pacman.x,
+          y: world.pacman.y + 1
+        }
+      })
+    }
+    else{
+      return make(world, {
+        pacman:{
+          x: world.pacman.x,
+          y: world.pacman.y
+        }
+      })
+    }
+    }
+  }
    
   
 
