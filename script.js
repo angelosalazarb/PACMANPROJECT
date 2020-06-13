@@ -84,7 +84,7 @@ function sketchProc(processing) {
    * 
    */
   processing.setup = function () {
-    processing.frameRate(6); // FPS
+    processing.frameRate(4); // FPS
     processing.size(WIDTH, HEIGHT);//Load canvas
     
     gblue = processing.loadImage("images/blue.png");//Load a blue ghost
@@ -102,7 +102,8 @@ function sketchProc(processing) {
       
       pacman:{
         x:9,
-        y:16
+        y:16,
+        dir:"L"
       },
 
       score:0,
@@ -153,11 +154,25 @@ function sketchProc(processing) {
       //Draw Pacman
 
         if(block == 1){
-          if(world.time % 4 == 0 ){
-            //Open mouth
-            processing.image(PACMANC,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);  
+          if(world.time % 2 == 0){
+            if(world.pacman.dir == "L"){
+            processing.image(PACMANL,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
+          }
+          else if(world.pacman.dir == "R"){
+            processing.image(PACMANR,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
+          }
+          else if(world.pacman.dir == "U"){
+            processing.image(PACMANU,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
+          }
+          else if(world.pacman.dir == "D"){
+            processing.image(PACMAND,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
           }
         }
+        else{
+            processing.image(PACMANC,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);  
+        }
+      }
+    
         //Draw block
         if(block == 2){
           processing.fill(0,255,0);
@@ -244,17 +259,14 @@ processing.onKeyEvent = function(world, keyCode){
     waka.play()
     waka.volume = 0.03;
 
-    if(world.time % 4 !== 0 ){
-      processing.image(PACMANL,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
-    }
-
     if( MAPA[world.pacman.y][world.pacman.x -  1] == 0){
       MAPA[world.pacman.y][world.pacman.x -  1] = 1
       MAPA[world.pacman.y][world.pacman.x] = 0
     return make(world, {
       pacman:{
         x: world.pacman.x - 1,
-        y: world.pacman.y
+        y: world.pacman.y,
+        dir: "L"
       }
     })
     }
@@ -264,7 +276,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: world.pacman.x - 1,
-          y: world.pacman.y
+          y: world.pacman.y,
+          dir: "L"
         }
       })
     }
@@ -274,7 +287,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: world.pacman.x - 1,
-          y: world.pacman.y
+          y: world.pacman.y,
+          dir: "L"
         }
       })
     }
@@ -284,7 +298,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: 17,
-          y: world.pacman.y
+          y: world.pacman.y,
+          dir: "L"
         }
       })
     }
@@ -292,7 +307,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: world.pacman.x,
-          y: world.pacman.y
+          y: world.pacman.y,
+          dir: "L"
         }
       })
     }
@@ -301,18 +317,15 @@ processing.onKeyEvent = function(world, keyCode){
   if(keyCode == processing.RIGHT){
     waka.play()
     waka.volume = 0.03;
-    
-    if(world.time % 4 !== 0 ){
-      processing.image(PACMANR,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
-    }
-
+  
     if( MAPA[world.pacman.y][world.pacman.x +  1] == 0){
       MAPA[world.pacman.y][world.pacman.x +  1] = 1
       MAPA[world.pacman.y][world.pacman.x] = 0
     return make(world, {
       pacman:{
         x: world.pacman.x + 1,
-        y: world.pacman.y
+        y: world.pacman.y,
+        dir: "R"
       }
     })
     }
@@ -322,7 +335,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: world.pacman.x + 1,
-          y: world.pacman.y
+          y: world.pacman.y,
+          dir: "R"
         }
       })
     }
@@ -332,7 +346,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: world.pacman.x + 1,
-          y: world.pacman.y
+          y: world.pacman.y,
+          dir: "R"
         }
       })
     }
@@ -342,7 +357,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: 1,
-          y: world.pacman.y
+          y: world.pacman.y,
+          dir: "R"
         }
       })
     }
@@ -350,7 +366,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: world.pacman.x,
-          y: world.pacman.y
+          y: world.pacman.y,
+          dir: "R"
         }
       })
     }
@@ -363,18 +380,14 @@ processing.onKeyEvent = function(world, keyCode){
     waka.play()
     waka.volume = 0.03;
     
-    if(world.time % 4 !== 0 ){
-      processing.image(PACMANU,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
-    }
-
-
     if( MAPA[world.pacman.y - 1][world.pacman.x] == 0){
       MAPA[world.pacman.y - 1][world.pacman.x] = 1
       MAPA[world.pacman.y][world.pacman.x] = 0
     return make(world, {
       pacman:{
         x: world.pacman.x,
-        y: world.pacman.y - 1
+        y: world.pacman.y - 1,
+        dir: "U"
       }
     })
     }
@@ -384,7 +397,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: world.pacman.x,
-          y: world.pacman.y - 1
+          y: world.pacman.y - 1,
+          dir: "U"
         }
       })
     }
@@ -394,7 +408,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: world.pacman.x,
-          y: world.pacman.y - 1
+          y: world.pacman.y - 1,
+          dir: "U"
         }
       })
     }
@@ -402,7 +417,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: world.pacman.x,
-          y: world.pacman.y
+          y: world.pacman.y,
+          dir: "U"
         }
       })
     }
@@ -423,7 +439,8 @@ processing.onKeyEvent = function(world, keyCode){
     return make(world, {
       pacman:{
         x: world.pacman.x,
-        y: world.pacman.y + 1
+        y: world.pacman.y + 1,
+        dir: "D"
       }
     })
     }
@@ -433,7 +450,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: world.pacman.x,
-          y: world.pacman.y + 1
+          y: world.pacman.y + 1,
+          dir: "D"
         }
       })
     }
@@ -443,7 +461,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: world.pacman.x,
-          y: world.pacman.y + 1
+          y: world.pacman.y + 1,
+          dir: "D"
         }
       })
     }
@@ -451,7 +470,8 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: world.pacman.x,
-          y: world.pacman.y
+          y: world.pacman.y,
+          dir: "D"
         }
       })
     }
