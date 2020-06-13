@@ -28,7 +28,7 @@ var PACMANC = null;
 function make(data, attribute) {
   return Object.assign({}, data, attribute);
 }
-const WIDTH = 378;
+const WIDTH = 420;
 const HEIGHT = 550;
 const BSIZE = 22;
 const MAPA = [
@@ -39,28 +39,29 @@ const MAPA = [
    * 7 == OrangeGhost, 8 == PinkGhost
    * 
    */
-  [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
-  [2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
-  [2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
-  [2,4,2,2,3,2,2,3,2,3,2,2,3,2,2,4,2,0,0,0,0,0,0],
-  [2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
-  [2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
-  [2,2,2,2,3,2,2,0,0,0,2,2,3,2,2,2,2,0,0,0,0,0,0],
-  [0,0,0,2,3,2,0,0,2,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
-  [2,2,2,2,3,2,0,2,8,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
-  [3,3,3,3,3,3,0,2,7,2,0,3,3,3,3,3,3,0,0,0,0,0,0],
-  [2,2,2,2,3,2,0,2,2,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
-  [0,0,0,2,3,2,0,0,0,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
-  [2,2,2,2,3,2,3,2,2,2,3,2,3,2,2,2,2,0,0,0,0,0,0],
-  [2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
-  [2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
-  [2,4,3,2,3,6,3,3,1,3,3,3,3,2,3,4,2,0,0,0,0,0,0],
-  [2,2,3,2,3,2,3,2,2,2,3,2,3,2,3,2,2,0,0,0,0,0,0],
-  [2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
-  [2,3,2,2,2,2,2,3,2,3,2,2,2,2,2,3,2,0,0,0,0,0,0],
-  [2,3,3,3,3,3,3,3,3,3,5,3,3,3,3,3,2,0,0,0,0,0,0],
-  [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
-  ["life","life","life",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
+  [0,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
+  [0,2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
+  [0,2,4,2,2,3,2,2,3,2,3,2,2,3,2,2,4,2,0,0,0,0,0,0],
+  [0,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
+  [0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
+  [0,2,2,2,2,3,2,2,0,0,0,2,2,3,2,2,2,2,0,0,0,0,0,0],
+  [0,0,0,0,2,3,2,0,0,2,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
+  [0,2,2,2,2,3,2,0,2,8,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
+  [11,3,3,3,3,3,3,0,2,7,2,0,3,3,3,3,3,3,12,0,0,0,0,0],
+  [0,2,2,2,2,3,2,0,2,2,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
+  [0,0,0,0,2,3,2,0,0,0,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
+  [0,2,2,2,2,3,2,3,2,2,2,3,2,3,2,2,2,2,0,0,0,0,0,0],
+  [0,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
+  [0,2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
+  [0,2,4,3,2,3,6,3,3,1,3,3,3,3,2,3,4,2,0,0,0,0,0,0],
+  [0,2,2,3,2,3,2,3,2,2,2,3,2,3,2,3,2,2,0,0,0,0,0,0],
+  [0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
+  [0,2,3,2,2,2,2,2,3,2,3,2,2,2,2,2,3,2,0,0,0,0,0,0],
+  [0,2,3,3,3,3,3,3,3,3,3,5,3,3,3,3,3,2,0,0,0,0,0,0],
+  [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
+  [0,"life","life","life",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ];
 
 /**
@@ -90,18 +91,18 @@ function sketchProc(processing) {
     goran = processing.loadImage("images/orange.png");//Load a orange ghost
     gpink = processing.loadImage("images/pink.png");//Load a pink ghost
     gred = processing.loadImage("images/red.png");//Load a red ghost
-    PACMANL= processing.loadImage("images/pacmanleft.png");
-    PACMANR = processing.loadImage("images/pacmanright.png");
-    PACMANU = processing.loadImage("images/pacmanup.png");
-    PACMAND = processing.loadImage("images/pacmandown.png");
-    PACMANC = processing.loadImage("images/pacmanclose.png");
+    PACMANL= processing.loadImage("images/pacmanleft2.png");
+    PACMANR = processing.loadImage("images/pacmanright2.png");
+    PACMANU = processing.loadImage("images/pacmanup2.png");
+    PACMAND = processing.loadImage("images/pacmandown2.png");
+    PACMANC = processing.loadImage("images/pacmanclose2.png");
     
     processing.state = {
       time:0,
       
       pacman:{
-        x:8,
-        y:15
+        x:9,
+        y:16
       },
 
       score:0,
@@ -155,19 +156,16 @@ function sketchProc(processing) {
           processing.fill(255, 255, 0); //Pacman Color
           if(world.time % 2 ==0 ){
             //Open mouth
-            processing.arc(world.pacman.x * BSIZE+BSIZE/2, 
-            world.pacman.y * BSIZE+BSIZE/2, BSIZE, BSIZE,-Math.PI * 3 / 4, Math.PI * 3/ 4); 
+            processing.image(PACMANC,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);  
           }else{
             //Close mouth
-            processing.arc(world.pacman.x * BSIZE+BSIZE/2, 
-            world.pacman.y * BSIZE+BSIZE/2, BSIZE, BSIZE, 0, Math.PI * 2); 
+              processing.image(PACMANL,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
           }
         }
         //Draw block
         if(block == 2){
           processing.fill(0,255,0);
           processing.rect(j*BSIZE, i*BSIZE, BSIZE-2, BSIZE-2,5,5,5);
-          
         }
         //Draw Cookie
         if(block == 3){
@@ -280,6 +278,16 @@ processing.onKeyEvent = function(world, keyCode){
         }
       })
     }
+    else if(MAPA[world.pacman.y][world.pacman.x - 1 ] == 11){
+      MAPA[world.pacman.y][world.pacman.x - 1] = 11
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: 17,
+          y: world.pacman.y
+        }
+      })
+    }
     else{
       return make(world, {
         pacman:{
@@ -320,6 +328,16 @@ processing.onKeyEvent = function(world, keyCode){
       return make(world, {
         pacman:{
           x: world.pacman.x + 1,
+          y: world.pacman.y
+        }
+      })
+    }
+    else if(MAPA[world.pacman.y][world.pacman.x + 1 ] == 12){
+      MAPA[world.pacman.y][world.pacman.x + 1] = 12
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: 1,
           y: world.pacman.y
         }
       })
