@@ -75,6 +75,33 @@ function forEach(list, fun, index=0){
   }
 }
 
+
+var crono;
+var seconds = 0;
+var minutes = 0;
+
+function crono2(){
+
+
+
+  crono = setInterval(
+  function(){
+    if (seconds == 60){
+      seconds = 0;
+      minutes = minutes + 1;
+    }
+    if(minutes == 0 ){
+      minutes = 0;
+    }
+    seconds = seconds + 1;
+  },1000);
+}
+
+
+
+
+
+
 /**
  * <sketchProc><library>----<?>
  * proposito: compila nuestro código y lo presenta en la ventana de visualización. Es lo mismo que pulsar el botón "PLAY".
@@ -207,7 +234,25 @@ function sketchProc(processing) {
     var temp = processing.nf(ho,2) +":"+ processing.nf(mi,2) +":"+ processing.nf(se,2)
 
     processing.text(temp,110,500)
+
+    crono2();
+    
+    if (seconds < 10){
+      var secs = "0" + seconds;
+    }
+    else{
+      var secs = seconds;
+    }
+    if(minutes < 10){
+      var mins =  "0" + minutes;
+    }else{
+      var mins = minutes;
+    }
+  
+    var temp2 = mins + ":" + secs;
+    processing.text(temp2,110,520)
   }
+  
 
 
 /**
@@ -217,7 +262,7 @@ function sketchProc(processing) {
  */
 processing.onKeyEvent = function(world, keyCode){
   console.log(keyCode)
-
+  
   if(keyCode == processing.LEFT  ){ //Representa hacia donde se dará el movimiento del pacman
 
     waka.play()
