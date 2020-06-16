@@ -39,29 +39,29 @@ const MAPA = [
    * 7 == OrangeGhost, 8 == PinkGhost
    * 
    */
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
-  [0,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
-  [0,2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
-  [0,2,4,2,2,3,2,2,3,2,3,2,2,3,2,2,4,2,0,0,0,0,0,0],
-  [0,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
-  [0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
-  [0,2,2,2,2,3,2,2,0,0,0,2,2,3,2,2,2,2,0,0,0,0,0,0],
-  [0,0,0,0,2,3,2,0,0,2,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
-  [0,2,2,2,2,3,2,0,2,8,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
-  [11,3,3,3,3,3,3,0,2,7,2,0,3,3,3,3,3,3,12,0,0,0,0,0],
-  [0,2,2,2,2,3,2,0,2,2,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
-  [0,0,0,0,2,3,2,0,0,0,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
-  [0,2,2,2,2,3,2,3,2,2,2,3,2,3,2,2,2,2,0,0,0,0,0,0],
-  [0,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
-  [0,2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
-  [0,2,4,3,2,3,6,3,3,1,3,3,3,3,2,3,4,2,0,0,0,0,0,0],
-  [0,2,2,3,2,3,2,3,2,2,2,3,2,3,2,3,2,2,0,0,0,0,0,0],
-  [0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
-  [0,2,3,2,2,2,2,2,3,2,3,2,2,2,2,2,3,2,0,0,0,0,0,0],
-  [0,2,3,3,3,3,3,3,3,3,3,5,3,3,3,3,3,2,0,0,0,0,0,0],
-  [0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
-  [0,"life","life","life",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  /*0*/[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  /*1*/[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
+  /*2*/[0,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
+  /*3*/[0,2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
+  /*4*/[0,2,4,2,2,3,2,2,3,2,3,2,2,3,2,2,4,2,0,0,0,0,0,0],
+  /*5*/[0,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
+  /*6*/[0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
+  /*7*/[0,2,2,2,2,3,2,2,0,0,0,2,2,3,2,2,2,2,0,0,0,0,0,0],
+  /*8*/[0,0,0,0,2,3,2,0,0,2,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
+  /*9*/[0,2,2,2,2,3,2,0,2,8,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
+  /*0*/[11,3,3,3,3,3,3,0,2,7,2,0,3,3,3,3,3,3,12,0,0,0,0,0],
+  /*1*/[0,2,2,2,2,3,2,0,2,2,2,7,2,3,2,2,2,2,0,0,0,0,0,0],
+  /*2*/[0,0,0,0,2,3,2,0,0,0,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
+  /*3*/[0,2,2,2,2,3,2,3,2,2,2,3,2,3,2,2,2,2,0,0,0,0,0,0],
+  /*4*/[0,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
+  /*5*/[0,2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
+  /*6*/[0,2,4,3,2,3,6,3,3,1,3,3,3,3,2,3,4,2,0,0,0,0,0,0],
+  /*7*/[0,2,2,3,2,3,2,3,2,2,2,3,2,3,2,3,2,2,0,0,0,0,0,0],
+  /*8*/[0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
+  /*9*/[0,2,3,2,2,2,2,2,3,2,3,2,2,2,2,2,3,2,0,0,0,0,0,0],
+  /*0*/[0,2,3,3,3,3,3,3,3,3,3,5,3,3,3,3,3,2,0,0,0,0,0,0],
+  /*1*/[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
+  /*2*/[0,"life","life","life",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ];
 
 /**
@@ -88,7 +88,7 @@ function stopwatch(){
 
   crono = setInterval(
   function(){
-    if (seconds == 60){
+    if (seconds == 59){
       seconds = 0;
       minutes = minutes + 1;
     }
@@ -128,6 +128,7 @@ function sketchProc(processing) {
     processing.state = {
       time:0,
       score:0,
+      lifes:3,
       pacman:{x:9,y:16,dir:"L"},
       ghosthb:{x:1,y:1},
       ghostho:{x:5,y:16},
@@ -150,16 +151,16 @@ function sketchProc(processing) {
 
       //Dibuja el Pacman
         if(block == 1){
-          if(world.pacman.dir == "L" && world.time % 2 == 0){
+          if(world.pacman.dir == "L" /*&& world.time % 2 == 0*/){
             processing.image(PACMANL,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
           }
-          else if(world.pacman.dir == "R" && world.time % 2 == 0){
+          else if(world.pacman.dir == "R" /*&& world.time % 2 == 0*/){
             processing.image(PACMANR,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
           }
-          else if(world.pacman.dir == "U" && world.time % 2 == 0){
+          else if(world.pacman.dir == "U" /*&& world.time % 2 == 0*/){
             processing.image(PACMANU,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
           }
-          else if(world.pacman.dir == "D" && world.time % 2 == 0){
+          else if(world.pacman.dir == "D" /*&& world.time % 2 == 0*/){
             processing.image(PACMAND,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
           }
           else{
@@ -324,12 +325,25 @@ processing.onKeyEvent = function(world, keyCode){
       pacD.volume = 0.06;
       MAPA[world.pacman.y][world.pacman.x] = 0
       MAPA[16][9] = 1
+      
+      console.log(world.lifes)
+
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0
+      }
+      
 
       return  processing.state = {
       time:world.time,
       score:world.score,
+      lifes:world.lifes - 1,
       pacman:{x:9,y:16,dir:"L"},
-      
     }
     }
     else{ //Si no ocurre ninguna de las anteriores es porque hay un bloque entonces no deja mover el pacman
@@ -400,12 +414,23 @@ processing.onKeyEvent = function(world, keyCode){
       MAPA[world.pacman.y][world.pacman.x] = 0
       MAPA[16][9] = 1
 
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0
+      }
+      
+
       return  processing.state = {
       time:world.time,
       score:world.score,
+      lifes:world.lifes - 1,
       pacman:{x:9,y:16,dir:"R"},
-      
-    }
+      }
     }
     else{
       return make(world, {
@@ -467,12 +492,23 @@ processing.onKeyEvent = function(world, keyCode){
       MAPA[world.pacman.y][world.pacman.x] = 0
       MAPA[16][9] = 1
 
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0
+      }
+      
+
       return  processing.state = {
       time:world.time,
       score:world.score,
+      lifes:world.lifes - 1,
       pacman:{x:9,y:16,dir:"U"},
-      
-    }
+      }
     }
     else{
       return make(world, {
@@ -536,12 +572,24 @@ processing.onKeyEvent = function(world, keyCode){
       MAPA[world.pacman.y][world.pacman.x] = 0
       MAPA[16][9] = 1
 
+     
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0
+      }
+      
+
       return  processing.state = {
       time:world.time,
       score:world.score,
+      lifes:world.lifes - 1,
       pacman:{x:9,y:16,dir:"D"},
-      
-    }
+      }
     }
     else{
       return make(world, {
@@ -561,7 +609,7 @@ processing.onKeyEvent = function(world, keyCode){
    * Cambia la posición del objeto moviendolo 1 unidad a la derecha. 
    */
   processing.onTic = function(world){
-    console.log(world.time)
+    //console.log(world.time)
     return make(world, { time: world.time + 1 , 
     pacman: { x: world.pacman.x, y: world.pacman.y  }
     });
