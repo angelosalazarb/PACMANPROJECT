@@ -70,5 +70,21 @@ html {
   transition: all 0.1s ease;
 }
 
+.boton6 {
+  color: rgb(255, 255, 255) !important;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 0.5em 1.2em;
+  background: #ffffff00;
+  border: 3px solid;
+  border-color: #fbff04;
+  position: relative;
+
+}
+.boton6:hover {
+  color: rgb(255, 255, 255) !important;
+  box-shadow: 0 6px 20px rgb(250, 250, 250);
+  transition: all 0.1s ease;
+}
 
 
