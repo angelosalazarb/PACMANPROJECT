@@ -318,6 +318,20 @@ processing.onKeyEvent = function(world, keyCode){
         }
       })
     }
+    else if(MAPA[world.pacman.y][world.pacman.x - 1 ]==5 ||MAPA[world.pacman.y][world.pacman.x - 1 ]==6 || MAPA[world.pacman.y][world.pacman.x - 1 ]==7 || MAPA[world.pacman.y][world.pacman.x - 1 ]==8){
+      
+      pacD.play();
+      pacD.volume = 0.06;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      MAPA[16][9] = 1
+
+      return  processing.state = {
+      time:world.time,
+      score:world.score,
+      pacman:{x:9,y:16,dir:"L"},
+      
+    }
+    }
     else{ //Si no ocurre ninguna de las anteriores es porque hay un bloque entonces no deja mover el pacman
       return make(world, {
         pacman:{
@@ -379,6 +393,20 @@ processing.onKeyEvent = function(world, keyCode){
         }
       })
     }
+    else if(MAPA[world.pacman.y][world.pacman.x + 1 ]==5 ||MAPA[world.pacman.y][world.pacman.x + 1 ]==6 || MAPA[world.pacman.y][world.pacman.x + 1 ]==7 || MAPA[world.pacman.y][world.pacman.x + 1 ]==8){
+      
+      pacD.play();
+      pacD.volume = 0.06;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      MAPA[16][9] = 1
+
+      return  processing.state = {
+      time:world.time,
+      score:world.score,
+      pacman:{x:9,y:16,dir:"R"},
+      
+    }
+    }
     else{
       return make(world, {
         pacman:{
@@ -431,6 +459,20 @@ processing.onKeyEvent = function(world, keyCode){
         },
         score: world.score = world.score + 20
       })
+    }
+    else if(MAPA[world.pacman.y - 1 ][world.pacman.x]==5 ||MAPA[world.pacman.y - 1 ][world.pacman.x]==6 || MAPA[world.pacman.y - 1 ][world.pacman.x]==7 || MAPA[world.pacman.y - 1 ][world.pacman.x]==8){
+      
+      pacD.play();
+      pacD.volume = 0.06;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      MAPA[16][9] = 1
+
+      return  processing.state = {
+      time:world.time,
+      score:world.score,
+      pacman:{x:9,y:16,dir:"U"},
+      
+    }
     }
     else{
       return make(world, {
@@ -486,6 +528,20 @@ processing.onKeyEvent = function(world, keyCode){
         },
         score: world.score = world.score + 20
       })
+    }
+    else if(MAPA[world.pacman.y + 1 ][world.pacman.x]==5 ||MAPA[world.pacman.y + 1 ][world.pacman.x]==6 || MAPA[world.pacman.y + 1 ][world.pacman.x]==7 || MAPA[world.pacman.y + 1 ][world.pacman.x]==8){
+      
+      pacD.play();
+      pacD.volume = 0.06;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      MAPA[16][9] = 1
+
+      return  processing.state = {
+      time:world.time,
+      score:world.score,
+      pacman:{x:9,y:16,dir:"D"},
+      
+    }
     }
     else{
       return make(world, {
