@@ -47,7 +47,7 @@ const MAPA = [
   /*5*/[0,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
   /*6*/[0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
   /*7*/[0,2,2,2,2,3,2,2,0,0,0,2,2,3,2,2,2,2,0,0,0,0,0,0],
-  /*8*/[0,0,0,0,2,3,2,5,0,2,0,6,2,3,2,0,0,0,0,0,0,0,0,0],
+  /*8*/[0,0,0,0,2,3,2,5,0,0,0,6,2,3,2,0,0,0,0,0,0,0,0,0],
   /*9*/[0,2,2,2,2,3,2,0,2,8,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
   /*0*/[11,3,3,3,3,3,3,0,2,7,2,0,3,3,3,3,3,3,12,0,0,0,0,0],
   /*1*/[0,2,2,2,2,3,2,0,2,2,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
@@ -55,11 +55,11 @@ const MAPA = [
   /*3*/[0,2,2,2,2,3,2,3,2,2,2,3,2,3,2,2,2,2,0,0,0,0,0,0],
   /*4*/[0,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
   /*5*/[0,2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
-  /*6*/[0,2,4,3,2,3,6,3,3,1,3,3,3,3,2,3,4,2,0,0,0,0,0,0],
+  /*6*/[0,2,4,3,2,3,3,3,3,1,3,3,3,3,2,3,4,2,0,0,0,0,0,0],
   /*7*/[0,2,2,3,2,3,2,3,2,2,2,3,2,3,2,3,2,2,0,0,0,0,0,0],
   /*8*/[0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
   /*9*/[0,2,3,2,2,2,2,2,3,2,3,2,2,2,2,2,3,2,0,0,0,0,0,0],
-  /*0*/[0,2,3,3,3,3,3,3,3,3,3,5,3,3,3,3,3,2,0,0,0,0,0,0],
+  /*0*/[0,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
   /*1*/[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
   /*2*/[0,"life","life","life",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ];
@@ -96,12 +96,8 @@ function stopwatch(){
       minutes = 0;
     }
     seconds = seconds + 1;
-  },1000); 
+  },1000);
 }
-
-
-
-
 
 /**
  * <sketchProc><library>----<?>
@@ -255,15 +251,22 @@ function sketchProc(processing) {
   
       var temp2 = mins + ":" + secs;
       processing.text(temp2,110,520)
-    
-      if (world.lifes == 0){
-        alert("¡Se te acabaron las vidas!" + "\nHIGH SCORE:" + " " + world.score + "\nTIEMPO:" + " " + temp2);
-        location.replace("index.html","START GAME", "width=300, height=200");
-        world.lifes = world.lifes + 3;
-      }
-  }
-  
+      
 
+if (world.lifes == 0){
+      window.location = "/restart.html?time="+temp2+"&score="+world.score;
+    }
+        //alert("¡Se te acabaron las vidas!" + "\nHIGH SCORE:" + " " + world.score + "\nTIEMPO:" + " " + temp2);
+        //location.replace("index.html","START GAME", "width=300, height=200");
+        //world.lifes = world.lifes + 3;
+      }
+      
+      /*if (world.lifes == 0){
+      location.replace("restart.html","START GAME", "width=300, height=200");
+      world.lifes = world.lifes + 3;
+    }*/
+   
+    
 /**
 * Contrato: <.onKeyEvent> <world> <keyCode> ---> <make>
 * Propósito: realizar una acción específica cuando se presiona una tecla en el teclado.
@@ -411,8 +414,8 @@ processing.onKeyEvent = function(world, keyCode){
         }
       })
     }
-    else if(MAPA[world.pacman.y][world.pacman.x + 1 ]==5 ||MAPA[world.pacman.y][world.pacman.x + 1 ]==6 || MAPA[world.pacman.y][world.pacman.x + 1 ]==7 || MAPA[world.pacman.y][world.pacman.x + 1 ]==8){//Si toca un fantasma el pacman muere
-    
+    else if(MAPA[world.pacman.y][world.pacman.x + 1 ]==5 ||MAPA[world.pacman.y][world.pacman.x + 1 ]==6 || MAPA[world.pacman.y][world.pacman.x + 1 ]==7 || MAPA[world.pacman.y][world.pacman.x + 1 ]==8){
+      
       pacD.play();
       pacD.volume = 0.06;
       MAPA[world.pacman.y][world.pacman.x] = 0
@@ -428,6 +431,7 @@ processing.onKeyEvent = function(world, keyCode){
         MAPA[22][1] = 0
       }
       
+
       return  processing.state = {
       time:world.time,
       score:world.score,
@@ -447,6 +451,8 @@ processing.onKeyEvent = function(world, keyCode){
   }
   
 
+  
+  
   if(keyCode == processing.UP){
     waka.play()
     waka.volume = 0.03;
@@ -582,9 +588,9 @@ processing.onKeyEvent = function(world, keyCode){
       }
       else if(MAPA[22][1] == "life"){
         MAPA[22][1] = 0
+
       }
       
-
       return  processing.state = {
       time:world.time,
       score:world.score,
