@@ -14,6 +14,7 @@ var gblue = null;
 var goran = null;
 var gpink = null;
 var gred = null;
+var cherry = null;
 
 var PACMANL= null;
 var PACMANR = null;
@@ -41,7 +42,7 @@ const MAPA = [
    */
   /*0*/[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   /*1*/[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
-  /*2*/[0,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
+  /*2*/[0,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,9,2,0,0,0,0,0,0],
   /*3*/[0,2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
   /*4*/[0,2,4,2,2,3,2,2,3,2,3,2,2,3,2,2,4,2,0,0,0,0,0,0],
   /*5*/[0,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
@@ -59,7 +60,7 @@ const MAPA = [
   /*7*/[0,2,2,3,2,3,2,3,2,2,2,3,2,3,2,3,2,2,0,0,0,0,0,0],
   /*8*/[0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
   /*9*/[0,2,3,2,2,2,2,2,3,2,3,2,2,2,2,2,3,2,0,0,0,0,0,0],
-  /*0*/[0,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
+  /*0*/[0,2,9,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
   /*1*/[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
   /*2*/[0,"life","life","life",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ];
@@ -118,6 +119,7 @@ function sketchProc(processing) {
     PACMANU = processing.loadImage("images/pacmanup2.png");//Carga  imagen PacmanUp
     PACMAND = processing.loadImage("images/pacmandown2.png");//Carga  imagen PacmanDown
     PACMANC = processing.loadImage("images/pacmanclose2.png");//Carga  imagen PacmanClose
+    cherry = processing.loadImage("images/cherry.png"); //Carga imagen cereza 
 
     //Condiciones iniciales
     processing.state = {
@@ -212,6 +214,10 @@ function sketchProc(processing) {
 
         if(block == 8){
           processing.image(gpink,j * BSIZE,i * BSIZE,22,22) 
+        }
+
+        if(block == 9){
+          processing.image(cherry,j * BSIZE,i * BSIZE,22,22) 
         }
       
       });
@@ -363,6 +369,17 @@ processing.onKeyEvent = function(world, keyCode){
       pacman:{x:9,y:16,dir:"L"},
     }
     }
+    else if(MAPA[world.pacman.y][world.pacman.x - 1 ] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
+      MAPA[world.pacman.y][world.pacman.x - 1] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: world.pacman.x - 1,
+          y: world.pacman.y,
+          dir: "L"
+        }
+      })
+    }
     else{ //Si no ocurre ninguna de las anteriores es porque hay un bloque entonces no deja mover el pacman
       return make(world, {
         pacman:{
@@ -449,6 +466,17 @@ processing.onKeyEvent = function(world, keyCode){
       pacman:{x:9,y:16,dir:"R"},
       }
     }
+    else if(MAPA[world.pacman.y][world.pacman.x + 1 ] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
+      MAPA[world.pacman.y][world.pacman.x + 1] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: world.pacman.x + 1,
+          y: world.pacman.y,
+          dir: "R"
+        }
+      })
+    }
     else{
       return make(world, {
         pacman:{
@@ -526,6 +554,17 @@ processing.onKeyEvent = function(world, keyCode){
       lifes:world.lifes - 1,
       pacman:{x:9,y:16,dir:"U"},
       }
+    }
+    else if(MAPA[world.pacman.y - 1][world.pacman.x] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
+      MAPA[world.pacman.y - 1][world.pacman.x] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: world.pacman.x,
+          y: world.pacman.y - 1,
+          dir: "U"
+        }
+      })
     }
     else{
       return make(world, {
@@ -607,6 +646,17 @@ processing.onKeyEvent = function(world, keyCode){
       lifes:world.lifes - 1,
       pacman:{x:9,y:16,dir:"D"},
       }
+    }
+    else if(MAPA[world.pacman.y + 1][world.pacman.x] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
+      MAPA[world.pacman.y + 1][world.pacman.x] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: world.pacman.x,
+          y: world.pacman.y + 1,
+          dir: "D"
+        }
+      })
     }
     else{
       return make(world, {
