@@ -275,6 +275,16 @@ if (world.lifes == 0){
 processing.onKeyEvent = function(world, keyCode){
   console.log(keyCode)
   
+  if(keyCode != processing.LEFT && keyCode != processing.RIGHT && keyCode != processing.DOWN && keyCode != processing.UP){
+    return  processing.state = {
+      time:world.time,
+      score:world.score,
+      lifes:world.lifes - 1,
+      pacman:{x:world.pacman.x,y:world.pacman.y,dir:"R"},
+      }
+  }
+
+
   if(keyCode == processing.LEFT  ){ //Representa hacia donde se dará el movimiento del pacman
 
     waka.play()
