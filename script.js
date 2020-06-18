@@ -37,7 +37,7 @@ const MAPA = [
    * En el mapa, la siguiente representación para crearlo
    * 0 == Empty, 1 == Pacman, 2 == Rock, 3 == cookie, 
    * 4 == Big Cookie, 5 == BlueGhost, 6 == RedGhost, 
-   * 7 == OrangeGhost, 8 == PinkGhost
+   * 7 == OrangeGhost, 8 == PinkGhost, 9 == Cherry
    * 
    */
   /*0*/[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -77,29 +77,6 @@ function forEach(list, fun, index=0){
 }
 
 
-var crono;
-var seconds = 0;
-var minutes = 0;
-
-/**
- * Contract: <stopwatch><> --><>
- * Purpose: Es una función que crea un cronómetro para contar el tiempo de juego
- */
-function stopwatch(){
-
-  crono = setInterval(
-  function(){
-    if (seconds == 59){
-      seconds = 0;
-      minutes = minutes + 1;
-    }
-    if(minutes == 0 ){
-      minutes = 0;
-    }
-    seconds = seconds + 1;
-  },1000);
-}
-
 /**
  * <sketchProc><library>----<?>
  * proposito: compila nuestro código y lo presenta en la ventana de visualización. Es lo mismo que pulsar el botón "PLAY".
@@ -124,6 +101,8 @@ function sketchProc(processing) {
     //Condiciones iniciales
     processing.state = {
       time:0,
+      seconds:0,
+      minutes:0,
       score:0,
       lifes:3,
       pacman:{x:9,y:16,dir:"L"},
@@ -219,9 +198,12 @@ function sketchProc(processing) {
         if(block == 9){
           processing.image(cherry,j * BSIZE,i * BSIZE,22,22) 
         }
+
       
       });
     });
+
+   
     
     /**
      * contrato:<textSize><num>-><?>
@@ -240,19 +222,29 @@ function sketchProc(processing) {
 
     processing.text(temp,110,500)
 
-   if(world.time == 0){
-      return stopwatch();
-   }
-      if (seconds < 10){
-      var secs = "0" + seconds;
+    //Crónometro 
+    if(world.time == 4){
+      world.time = 0  
+      world.seconds = world.seconds + 1;
+      
+      if (world.seconds == 59){
+        world.seconds = 0;
+        world.minutes = world.minutes + 1;
+      }
+      if(world.minutes == 0 ){
+        world.minutes = 0;
+      }
+    }
+      if (world.seconds < 10){
+      var secs = "0" + world.seconds;
       }
       else{
-      var secs = seconds;
+      var secs = world.seconds;
       }
-      if(minutes < 10){
-      var mins =  "0" + minutes;
+      if(world.minutes < 10){
+      var mins =  "0" + world.minutes;
       }else{
-      var mins = minutes;
+      var mins = world.minutes;
       }
   
       var temp2 = mins + ":" + secs;
