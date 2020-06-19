@@ -278,8 +278,10 @@ processing.onKeyEvent = function(world, keyCode){
   if(keyCode != processing.LEFT && keyCode != processing.RIGHT && keyCode != processing.DOWN && keyCode != processing.UP){
     return  processing.state = {
       time:world.time,
+      seconds: world.seconds,
+      minutes: world.minutes,
       score:world.score,
-      lifes:world.lifes - 1,
+      lifes:world.lifes,
       pacman:{x:world.pacman.x,y:world.pacman.y,dir:"R"},
       }
   }
@@ -358,6 +360,8 @@ processing.onKeyEvent = function(world, keyCode){
 
       return  processing.state = {
       time:world.time,
+      seconds: world.seconds,
+      minutes: world.minutes,
       score:world.score,
       lifes:world.lifes - 1,
       pacman:{x:9,y:16,dir:"L"},
@@ -453,11 +457,14 @@ processing.onKeyEvent = function(world, keyCode){
       }
       
 
+      
       return  processing.state = {
-      time:world.time,
-      score:world.score,
-      lifes:world.lifes - 1,
-      pacman:{x:9,y:16,dir:"R"},
+        time:world.time,
+        seconds: world.seconds,
+        minutes: world.minutes,
+        score:world.score,
+        lifes:world.lifes - 1,
+        pacman:{x:9,y:16,dir:"R"},
       }
     }
     else if(MAPA[world.pacman.y][world.pacman.x + 1 ] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
@@ -540,13 +547,14 @@ processing.onKeyEvent = function(world, keyCode){
       else if(MAPA[22][1] == "life"){
         MAPA[22][1] = 0
       }
-      
-
+    
       return  processing.state = {
-      time:world.time,
-      score:world.score,
-      lifes:world.lifes - 1,
-      pacman:{x:9,y:16,dir:"U"},
+        time:world.time,
+        seconds: world.seconds,
+        minutes: world.minutes,
+        score:world.score,
+        lifes:world.lifes - 1,
+        pacman:{x:9,y:16,dir:"U"},
       }
     }
     else if(MAPA[world.pacman.y - 1][world.pacman.x] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
@@ -634,11 +642,14 @@ processing.onKeyEvent = function(world, keyCode){
 
       }
       
+      
       return  processing.state = {
-      time:world.time,
-      score:world.score,
-      lifes:world.lifes - 1,
-      pacman:{x:9,y:16,dir:"D"},
+        time:world.time,
+        seconds: world.seconds,
+        minutes: world.minutes,
+        score:world.score,
+        lifes:world.lifes - 1,
+        pacman:{x:9,y:16,dir:"D"},
       }
     }
     else if(MAPA[world.pacman.y + 1][world.pacman.x] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
