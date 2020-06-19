@@ -22,6 +22,9 @@ var PACMANU = null;
 var PACMAND = null;
 var PACMANC = null;
 
+var mins = null;
+var secs = null;
+
 /**
  * Contrato: <make><estructura>---><estructura>
  * proposito: Retorna una copia del mundo que puede ser modificada
@@ -37,7 +40,7 @@ const MAPA = [
    * En el mapa, la siguiente representación para crearlo
    * 0 == Empty, 1 == Pacman, 2 == Rock, 3 == cookie, 
    * 4 == Big Cookie, 5 == BlueGhost, 6 == RedGhost, 
-   * 7 == OrangeGhost, 8 == PinkGhost, 9 == Cherry
+   * 7 == OrangeGhost, 8 == PinkGhost
    * 
    */
   /*0*/[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -76,7 +79,6 @@ function forEach(list, fun, index=0){
   }
 }
 
-
 /**
  * <sketchProc><library>----<?>
  * proposito: compila nuestro código y lo presenta en la ventana de visualización. Es lo mismo que pulsar el botón "PLAY".
@@ -101,8 +103,8 @@ function sketchProc(processing) {
     //Condiciones iniciales
     processing.state = {
       time:0,
-      seconds:0,
       minutes:0,
+      seconds:0,
       score:0,
       lifes:3,
       pacman:{x:9,y:16,dir:"L"},
@@ -198,12 +200,9 @@ function sketchProc(processing) {
         if(block == 9){
           processing.image(cherry,j * BSIZE,i * BSIZE,22,22) 
         }
-
       
       });
     });
-
-   
     
     /**
      * contrato:<textSize><num>-><?>
@@ -222,19 +221,19 @@ function sketchProc(processing) {
 
     processing.text(temp,110,500)
 
-    //Crónometro 
-    if(world.time == 4){
-      world.time = 0  
-      world.seconds = world.seconds + 1;
-      
-      if (world.seconds == 59){
-        world.seconds = 0;
-        world.minutes = world.minutes + 1;
-      }
-      if(world.minutes == 0 ){
-        world.minutes = 0;
-      }
+   if(world.time % 4 == 0){
+
+    world.seconds = world.seconds + 1;
+
+    if (world.seconds == 59){
+      world.seconds = 0;
+      world.minutes = world.minutes + 1;
     }
+    if(world.minutes == 0 ){
+      world.minutes = 0;
+    }
+  }
+
       if (world.seconds < 10){
       var secs = "0" + world.seconds;
       }
@@ -246,13 +245,16 @@ function sketchProc(processing) {
       }else{
       var mins = world.minutes;
       }
-  
-      var temp2 = mins + ":" + secs;
-      processing.text(temp2,110,520)
+      
+
+      const temp1 = mins + ":" + secs;
+      console.log(temp1)
+      processing.text(temp1,110,520)
       
 
 if (world.lifes == 0){
-      window.location = "/restart.html?time="+temp2+"&score="+world.score;
+
+      window.location = "/restart.html?time="+temp1+"&score="+world.score;
     }
         //alert("¡Se te acabaron las vidas!" + "\nHIGH SCORE:" + " " + world.score + "\nTIEMPO:" + " " + temp2);
         //location.replace("index.html","START GAME", "width=300, height=200");
