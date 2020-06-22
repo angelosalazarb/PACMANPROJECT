@@ -51,7 +51,7 @@ const MAPA = [
   /*5*/[0,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
   /*6*/[0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
   /*7*/[0,2,2,2,2,3,2,2,0,0,0,2,2,3,2,2,2,2,0,0,0,0,0,0],
-  /*8*/[0,0,0,0,2,3,2,5,0,0,0,6,2,3,2,0,0,0,0,0,0,0,0,0],
+  /*8*/[0,0,0,0,2,3,2,5,0,0,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
   /*9*/[0,2,2,2,2,3,2,0,2,8,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
   /*0*/[11,3,3,3,3,3,3,0,2,7,2,0,3,3,3,3,3,3,12,0,0,0,0,0],
   /*1*/[0,2,2,2,2,3,2,0,2,2,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
@@ -78,6 +78,100 @@ function forEach(list, fun, index=0){
     forEach( rest(list), fun, index+1 )
   }
 }
+
+
+ /**
+function moveGhost(world){
+  console.log("entre ghost")
+
+    var direccionesX= [world.ghosthb.x-1, world.ghosthb.x+1]
+    var direccionesY= [world.ghosthb.y-1, world.ghosthb.y+1]
+    var sentidoX= direccionesX[Math.floor(Math.random()*direccionesX.length)]
+    var sentidoY= direccionesY[Math.floor(Math.random()*direccionesY.length)]    
+    
+    console.log("hola" + MAPA[world.ghosthb.y][world.ghosthb.x] )
+
+      if(MAPA[sentidoY][sentidoX] = 5 && MAPA[sentidoY][sentidoX] !== 2){
+        
+        MAPA[sentidoY][sentidoX] = 5
+        MAPA[world.ghosthb.y][world.ghosthb.x] = 0
+        
+        console.log("hola")
+        make(world, {
+          ghosthb:{
+            x: sentidoX,
+            y: sentidoY 
+          }
+        })
+      }
+}        
+ */
+
+function random(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+function moveGhost(world){
+  
+
+  if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] !== 2){
+
+    if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] !== 3){
+      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 0
+    }
+    else{
+      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3
+    }
+  
+        make(world, {
+          ghosthb:{
+            x: world.ghosthb.x = world.ghosthb.x + 1,
+            y: world.ghosthb.y 
+          }
+        })
+      }
+      else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 2 && MAPA[world.ghosthb.y + 1][world.ghosthb.x] !== 2){
+
+        if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] !== 3){
+          
+          MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5
+          MAPA[world.ghosthb.y][world.ghosthb.x] = 0  
+
+        }
+        else{
+          MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5
+          MAPA[world.ghosthb.y][world.ghosthb.x] = 3
+        }
+      
+        
+        make(world, {
+          ghosthb:{
+            x: world.ghosthb.x,
+            y: world.ghosthb.y = world.ghosthb.y + 1 
+          }
+        })
+      }
+      else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 12){
+
+        MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 12
+        MAPA[world.ghosthb.y][world.ghosthb.x] = 0
+        return make(world, {
+            ghosthb:{
+              x: world.ghosthb.x = 1,
+              y: world.ghosthb.y
+              }
+            })
+          }
+        
+
+        
+      
+      
+      
+}
+
+
 
 /**
  * <sketchProc><library>----<?>
@@ -108,12 +202,13 @@ function sketchProc(processing) {
       score:0,
       lifes:3,
       pacman:{x:9,y:16,dir:"L"},
-      ghosthb:{x:1,y:1},
-      ghostho:{x:5,y:16},
-      ghosthp:{x:12,y:1},
-      ghosthr:{x:12,y:1},
-      stopw:{min:0, secs:0}
+      ghosthb:{x:7,y:8},
+      ghostho:{x:9,y:10},
+      ghosthp:{x:9,y:9},
+      ghosthr:{x:11,y:8},
+      
     }
+    
   }
 /**
  * contracto: <drawGame><world>----<world>
@@ -203,6 +298,7 @@ function sketchProc(processing) {
       
       });
     });
+  
     
     /**
      * contrato:<textSize><num>-><?>
@@ -251,22 +347,14 @@ function sketchProc(processing) {
       console.log(temp1)
       processing.text(temp1,110,520)
       
-
 if (world.lifes == 0){
 
       window.location = "/restart.html?time="+temp1+"&score="+world.score;
     }
-        //alert("¡Se te acabaron las vidas!" + "\nHIGH SCORE:" + " " + world.score + "\nTIEMPO:" + " " + temp2);
-        //location.replace("index.html","START GAME", "width=300, height=200");
-        //world.lifes = world.lifes + 3;
-      }
-      
-      /*if (world.lifes == 0){
-      location.replace("restart.html","START GAME", "width=300, height=200");
-      world.lifes = world.lifes + 3;
-    }*/
+}
+
    
-    
+  
 /**
 * Contrato: <.onKeyEvent> <world> <keyCode> ---> <make>
 * Propósito: realizar una acción específica cuando se presiona una tecla en el teclado.
@@ -274,7 +362,7 @@ if (world.lifes == 0){
  */
 processing.onKeyEvent = function(world, keyCode){
   console.log(keyCode)
-  
+
   if(keyCode != processing.LEFT && keyCode != processing.RIGHT && keyCode != processing.DOWN && keyCode != processing.UP){
     return  processing.state = {
       time:world.time,
@@ -338,7 +426,7 @@ processing.onKeyEvent = function(world, keyCode){
         }
       })
     }
-    else if(MAPA[world.pacman.y][world.pacman.x - 1 ]==5 ||MAPA[world.pacman.y][world.pacman.x - 1 ]==6 || MAPA[world.pacman.y][world.pacman.x - 1 ]==7 || MAPA[world.pacman.y][world.pacman.x - 1 ]==8){
+    else if(MAPA[world.pacman.y][world.pacman.x - 1 ]==5 || MAPA[world.pacman.y][world.pacman.x - 1 ]==6 || MAPA[world.pacman.y][world.pacman.x - 1 ]==7 || MAPA[world.pacman.y][world.pacman.x - 1 ]==8){
       
       pacD.play();
       pacD.volume = 0.06;
@@ -681,7 +769,15 @@ processing.onKeyEvent = function(world, keyCode){
    * Cambia la posición del objeto moviendolo 1 unidad a la derecha. 
    */
   processing.onTic = function(world){
-    //console.log(world.time)
+    console.log(world.time)
+    
+    if(world.time % 2 == 0 ){
+    moveGhost(world);
+    }
+
+   
+    
+    
     return make(world, { time: world.time + 1 , 
     pacman: { x: world.pacman.x, y: world.pacman.y  }
     });
