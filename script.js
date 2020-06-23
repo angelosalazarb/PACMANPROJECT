@@ -40,18 +40,18 @@ const MAPA = [
    * En el mapa, la siguiente representación para crearlo
    * 0 == Empty, 1 == Pacman, 2 == Rock, 3 == cookie, 
    * 4 == Big Cookie, 5 == BlueGhost, 6 == RedGhost, 
-   * 7 == OrangeGhost, 8 == PinkGhost
+   * 7 == OrangeGhost, 8 == PinkGhost , 9 == Cherry
    * 
-   */
+   */ //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
   /*0*/[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   /*1*/[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
-  /*2*/[0,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,9,2,0,0,0,0,0,0],
+  /*2*/[0,2,5,3,3,3,3,3,3,2,3,3,3,3,3,3,9,2,0,0,0,0,0,0],
   /*3*/[0,2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
   /*4*/[0,2,4,2,2,3,2,2,3,2,3,2,2,3,2,2,4,2,0,0,0,0,0,0],
   /*5*/[0,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
   /*6*/[0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
   /*7*/[0,2,2,2,2,3,2,2,0,0,0,2,2,3,2,2,2,2,0,0,0,0,0,0],
-  /*8*/[0,0,0,0,2,3,2,5,0,0,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
+  /*8*/[0,0,0,0,2,3,2,0,0,0,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
   /*9*/[0,2,2,2,2,3,2,0,2,8,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
   /*0*/[11,3,3,3,3,3,3,0,2,7,2,0,3,3,3,3,3,3,12,0,0,0,0,0],
   /*1*/[0,2,2,2,2,3,2,0,2,2,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
@@ -67,7 +67,35 @@ const MAPA = [
   /*1*/[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
   /*2*/[0,"life","life","life",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ];
-
+const MAPAPODER = [
+  /**
+   * ESTE ES EL MAPA PARA EL SUPERPODER DEL PACMAN.
+   * 
+   */
+  /*0*/[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  /*1*/[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
+  /*2*/[0,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
+  /*3*/[0,2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
+  /*4*/[0,2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
+  /*5*/[0,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
+  /*6*/[0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
+  /*7*/[0,2,2,2,2,3,2,2,0,0,0,2,2,3,2,2,2,2,0,0,0,0,0,0],
+  /*8*/[0,0,0,0,2,3,2,3,0,0,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
+  /*9*/[0,2,2,2,2,3,2,0,2,3,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
+  /*0*/[11,3,3,3,3,3,3,0,2,3,2,0,3,3,3,3,3,3,12,0,0,0,0,0],
+  /*1*/[0,2,2,2,2,3,2,0,2,2,2,0,2,3,2,2,2,2,0,0,0,0,0,0],
+  /*2*/[0,0,0,0,2,3,2,0,0,0,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
+  /*3*/[0,2,2,2,2,3,2,3,2,2,2,3,2,3,2,2,2,2,0,0,0,0,0,0],
+  /*4*/[0,2,3,3,3,3,3,3,3,2,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
+  /*5*/[0,2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
+  /*6*/[0,2,4,3,2,3,3,3,3,1,3,3,3,3,2,3,3,2,0,0,0,0,0,0],
+  /*7*/[0,2,2,3,2,3,2,3,2,2,2,3,2,3,2,3,2,2,0,0,0,0,0,0],
+  /*8*/[0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
+  /*9*/[0,2,3,2,2,2,2,2,3,2,3,2,2,2,2,2,3,2,0,0,0,0,0,0],
+  /*0*/[0,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
+  /*1*/[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
+  /*2*/[0,"life","life","life",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+];
 /**
  * Contrato:<forEach> <list>(<><num><num> --> ?)<index> -- > <?>
  * proposito: Lee un mapa (lista de la lista) y lo dibuja en el canvas
@@ -79,97 +107,138 @@ function forEach(list, fun, index=0){
   }
 }
 
-
- /**
-function moveGhost(world){
-  console.log("entre ghost")
-
-    var direccionesX= [world.ghosthb.x-1, world.ghosthb.x+1]
-    var direccionesY= [world.ghosthb.y-1, world.ghosthb.y+1]
-    var sentidoX= direccionesX[Math.floor(Math.random()*direccionesX.length)]
-    var sentidoY= direccionesY[Math.floor(Math.random()*direccionesY.length)]    
-    
-    console.log("hola" + MAPA[world.ghosthb.y][world.ghosthb.x] )
-
-      if(MAPA[sentidoY][sentidoX] = 5 && MAPA[sentidoY][sentidoX] !== 2){
-        
-        MAPA[sentidoY][sentidoX] = 5
-        MAPA[world.ghosthb.y][world.ghosthb.x] = 0
-        
-        console.log("hola")
-        make(world, {
-          ghosthb:{
-            x: sentidoX,
-            y: sentidoY 
-          }
-        })
-      }
-}        
- */
-
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
-function moveGhost(world){
-  
 
-  if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] !== 2){
+function moveGhostB(world){
 
-    if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] !== 3){
-      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5
-      MAPA[world.ghosthb.y][world.ghosthb.x] = 0
+   //Mover Abajo
+   if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] !== 2){ //Verifica si no es un bloque    
+
+    if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 0){//Verifica si hay un vacío
+      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5 //mueve el fantasma 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 0 //Deja el vacío 
     }
+    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 3){ //Verifica si hay una galleta 
+      
+      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5 //Mueve el fantasma 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3  //Deja galleta intacta
+
+    }
+    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 4){ //Verifica si hay una galleta grande
+      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5//Mueve el fantasma 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 4 //Deja galleta intacta
+
+    }
+    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 9){ //Verifica si hay una galleta grande
+      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5//Mueve el fantasma 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 9 //Deja galleta intacta
+
+    }
+    
     else{
-      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5
-      MAPA[world.ghosthb.y][world.ghosthb.x] = 3
+      return make(world, {
+        ghosthb:{
+          x: world.ghosthb.x,
+          y: world.ghosthb.y = world.ghosthb.y - 1 
+        }
+      })
     }
+    
   
-        make(world, {
+    return make(world, {
+      ghosthb:{
+        x: world.ghosthb.x,
+        y: world.ghosthb.y = world.ghosthb.y + 1 
+      }
+    })
+  }
+  //Mover derecha
+  else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] !== 2){
+
+    if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 0){//Verifica si hay un vacío
+      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5 //mueve el fantasma 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 0 //Deja el vacío 
+    }
+    else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 3){ //Verifica si hay una galleta 
+      
+      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5 //Mueve el fantasma 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3  //Deja galleta intacta
+
+    }
+    else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 4){ //Verifica si hay una galleta grande
+      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5//Mueve el fantasma 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 4 //Deja galleta intacta
+
+    }
+    else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 9){ //Verifica si hay una galleta grande
+      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5//Mueve el fantasma 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 9 //Deja galleta intacta
+
+    }
+
+    else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 2){ //Verifica si hay un bloque
+      return make(world, {
+        ghosthb:{
+          x: world.ghosthb.x,
+          y: world.ghosthb.y
+        }
+      })
+    }
+    
+    
+        return make(world, {
           ghosthb:{
             x: world.ghosthb.x = world.ghosthb.x + 1,
             y: world.ghosthb.y 
           }
         })
       }
-      else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 2 && MAPA[world.ghosthb.y + 1][world.ghosthb.x] !== 2){
 
-        if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] !== 3){
-          
-          MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5
-          MAPA[world.ghosthb.y][world.ghosthb.x] = 0  
+      //Mover Izquierda  
+      else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 2){
 
-        }
-        else{
-          MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5
-          MAPA[world.ghosthb.y][world.ghosthb.x] = 3
-        }
-      
         
-        make(world, {
+        if(MAPA[world.ghosthb.y][world.ghosthb.x - 1] == 0){//Verifica si hay un vacío
+          MAPA[world.ghosthb.y][world.ghosthb.x - 1] = 5 //mueve el fantasma 
+          MAPA[world.ghosthb.y][world.ghosthb.x] = 0 //Deja el vacío 
+        }
+        else if(MAPA[world.ghosthb.y][world.ghosthb.x - 1] == 3){ //Verifica si hay una galleta 
+          
+          MAPA[world.ghosthb.y][world.ghosthb.x - 1] = 5 //Mueve el fantasma 
+          MAPA[world.ghosthb.y][world.ghosthb.x] = 3  //Deja galleta intacta
+
+        }
+        else if(MAPA[world.ghosthb.y][world.ghosthb.x - 1] == 4){ //Verifica si hay una galleta grande
+          MAPA[world.ghosthb.y][world.ghosthb.x - 1] = 5//Mueve el fantasma 
+          MAPA[world.ghosthb.y][world.ghosthb.x] = 4 //Deja galleta intacta
+
+        }
+        else if(MAPA[world.ghosthb.y][world.ghosthb.x - 1]== 9){ //Verifica si hay una galleta grande
+          MAPA[world.ghosthb.y][world.ghosthb.x - 1] = 5//Mueve el fantasma 
+          MAPA[world.ghosthb.y][world.ghosthb.x] = 9 //Deja galleta intacta
+
+        }
+        else if(MAPA[world.ghosthb.y][world.ghosthb.x - 1]== 2){ //Verifica si hay una galleta grande
+          return make(world, {
+            ghosthb:{
+              x: world.ghosthb.x,
+              y: world.ghosthb.y
+            }
+          })
+        }
+        
+        return make(world, {
           ghosthb:{
-            x: world.ghosthb.x,
-            y: world.ghosthb.y = world.ghosthb.y + 1 
+            x: world.ghosthb.x = world.ghosthb.x - 1,
+            y: world.ghosthb.y
           }
         })
-      }
-      else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 12){
-
-        MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 12
-        MAPA[world.ghosthb.y][world.ghosthb.x] = 0
-        return make(world, {
-            ghosthb:{
-              x: world.ghosthb.x = 1,
-              y: world.ghosthb.y
-              }
-            })
-          }
-        
-
-        
-      
-      
+      }    
       
 }
+
 
 
 
@@ -202,10 +271,14 @@ function sketchProc(processing) {
       score:0,
       lifes:3,
       pacman:{x:9,y:16,dir:"L"},
-      ghosthb:{x:7,y:8},
+      ghosthb:{x:2,y:2},
       ghostho:{x:9,y:10},
       ghosthp:{x:9,y:9},
-      ghosthr:{x:11,y:8},
+      ghosthr:{x:16,y:20},
+      direRojo:{
+        x:0,
+        y:0
+      },
       
     }
     
@@ -289,17 +362,20 @@ function sketchProc(processing) {
         }
 
         if(block == 8){
-          processing.image(gpink,j * BSIZE,i * BSIZE,22,22) 
+         processing.image(gpink,j * BSIZE,i * BSIZE,22,22) 
         }
 
         if(block == 9){
           processing.image(cherry,j * BSIZE,i * BSIZE,22,22) 
         }
-      
+  
+
+       //ghost(world)
       });
     });
-  
     
+  
+
     /**
      * contrato:<textSize><num>-><?>
      * 	Establece el tamaño de fuente actual. El tamaño de fuente se mide en unidades de píxeles.
@@ -371,6 +447,10 @@ processing.onKeyEvent = function(world, keyCode){
       score:world.score,
       lifes:world.lifes,
       pacman:{x:world.pacman.x,y:world.pacman.y,dir:"R"},
+      ghosthb:{x:world.ghosthb.x,y:world.ghosthb.y},
+      ghostho:{x:world.ghostho.x,y:world.ghostho.y},
+      ghosthp:{x:world.ghosthp.x,y:world.ghosthp.y},
+      ghosthr:{x:world.ghosthr.x,y:world.ghosthr.y}
       }
   }
 
@@ -453,18 +533,11 @@ processing.onKeyEvent = function(world, keyCode){
       score:world.score,
       lifes:world.lifes - 1,
       pacman:{x:9,y:16,dir:"L"},
+      ghosthb:{x:world.ghosthb.x,y:world.ghosthb.y},
+      ghostho:{x:world.ghostho.x,y:world.ghostho.y},
+      ghosthp:{x:world.ghosthp.x,y:world.ghosthp.y},
+      ghosthr:{x:world.ghosthr.x,y:world.ghosthr.y}
     }
-    }
-    else if(MAPA[world.pacman.y][world.pacman.x - 1 ] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
-      MAPA[world.pacman.y][world.pacman.x - 1] = 1
-      MAPA[world.pacman.y][world.pacman.x] = 0
-      return make(world, {
-        pacman:{
-          x: world.pacman.x - 1,
-          y: world.pacman.y,
-          dir: "L"
-        }
-      })
     }
     else{ //Si no ocurre ninguna de las anteriores es porque hay un bloque entonces no deja mover el pacman
       return make(world, {
@@ -504,6 +577,7 @@ processing.onKeyEvent = function(world, keyCode){
         score: world.score = world.score + 1
       })
     }
+    
     else if(MAPA[world.pacman.y][world.pacman.x +1 ] == 4){
       MAPA[world.pacman.y][world.pacman.x + 1] = 1
       MAPA[world.pacman.y][world.pacman.x] = 0
@@ -553,18 +627,11 @@ processing.onKeyEvent = function(world, keyCode){
         score:world.score,
         lifes:world.lifes - 1,
         pacman:{x:9,y:16,dir:"R"},
+        ghosthb:{x:world.ghosthb.x,y:world.ghosthb.y},
+        ghostho:{x:world.ghostho.x,y:world.ghostho.y},
+        ghosthp:{x:world.ghosthp.x,y:world.ghosthp.y},
+        ghosthr:{x:world.ghosthr.x,y:world.ghosthr.y}
       }
-    }
-    else if(MAPA[world.pacman.y][world.pacman.x + 1 ] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
-      MAPA[world.pacman.y][world.pacman.x + 1] = 1
-      MAPA[world.pacman.y][world.pacman.x] = 0
-      return make(world, {
-        pacman:{
-          x: world.pacman.x + 1,
-          y: world.pacman.y,
-          dir: "R"
-        }
-      })
     }
     else{
       return make(world, {
@@ -643,6 +710,10 @@ processing.onKeyEvent = function(world, keyCode){
         score:world.score,
         lifes:world.lifes - 1,
         pacman:{x:9,y:16,dir:"U"},
+        ghosthb:{x:world.ghosthb.x,y:world.ghosthb.y},
+        ghostho:{x:world.ghostho.x,y:world.ghostho.y},
+        ghosthp:{x:world.ghosthp.x,y:world.ghosthp.y},
+        ghosthr:{x:world.ghosthr.x,y:world.ghosthr.y}
       }
     }
     else if(MAPA[world.pacman.y - 1][world.pacman.x] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
@@ -738,6 +809,10 @@ processing.onKeyEvent = function(world, keyCode){
         score:world.score,
         lifes:world.lifes - 1,
         pacman:{x:9,y:16,dir:"D"},
+        ghosthb:{x:world.ghosthb.x,y:world.ghosthb.y},
+        ghostho:{x:world.ghostho.x,y:world.ghostho.y},
+        ghosthp:{x:world.ghosthp.x,y:world.ghosthp.y},
+        ghosthr:{x:world.ghosthr.x,y:world.ghosthr.y}
       }
     }
     else if(MAPA[world.pacman.y + 1][world.pacman.x] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
@@ -771,15 +846,15 @@ processing.onKeyEvent = function(world, keyCode){
   processing.onTic = function(world){
     console.log(world.time)
     
+    
+    
     if(world.time % 2 == 0 ){
-    moveGhost(world);
+    moveGhostB(world);
     }
 
    
-    
-    
     return make(world, { time: world.time + 1 , 
-    pacman: { x: world.pacman.x, y: world.pacman.y  }
+    pacman: { x: world.pacman.x, y: world.pacman.y }
     });
   }
 
