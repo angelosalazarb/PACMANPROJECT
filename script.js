@@ -45,10 +45,10 @@ const MAPA = [
    */ //0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
   /*0*/[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   /*1*/[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
-  /*2*/[0,2,5,3,3,3,3,3,3,2,3,3,3,3,3,3,9,2,0,0,0,0,0,0],
+  /*2*/[0,2,9,3,3,3,3,3,3,2,3,3,3,3,3,3,9,2,0,0,0,0,0,0],
   /*3*/[0,2,3,2,2,3,2,2,3,2,3,2,2,3,2,2,3,2,0,0,0,0,0,0],
   /*4*/[0,2,4,2,2,3,2,2,3,2,3,2,2,3,2,2,4,2,0,0,0,0,0,0],
-  /*5*/[0,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
+  /*5*/[0,2,5,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0],
   /*6*/[0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
   /*7*/[0,2,2,2,2,3,2,2,0,0,8,2,2,3,2,2,2,2,0,0,0,0,0,0],
   /*8*/[0,0,0,0,2,3,2,0,0,0,0,0,2,3,2,0,0,0,0,0,0,0,0,0],
@@ -63,7 +63,7 @@ const MAPA = [
   /*7*/[0,2,2,3,2,3,2,3,2,2,2,3,2,3,2,3,2,2,0,0,0,0,0,0],
   /*8*/[0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
   /*9*/[0,2,3,2,2,2,2,2,3,2,3,2,2,2,2,2,3,2,0,0,0,0,0,0],
-  /*0*/[0,2,9,3,3,3,3,3,3,3,3,3,3,3,3,3,6,2,0,0,0,0,0,0],
+  /*0*/[0,2,9,3,3,3,3,3,3,3,3,3,3,3,3,6,9,2,0,0,0,0,0,0],
   /*1*/[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
   /*2*/[0,"life","life","life",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ];
@@ -111,6 +111,10 @@ function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
+/**
+ * Contrato: <moveGhostB><world> ---> <?>
+ * Proposito: Recibe el mundo y mueve el fantasma azul en un recorrido especifico dentro de este.
+ */
 function moveGhostB(world){
   
    //Mover Abajo
@@ -347,7 +351,10 @@ function moveGhostB(world){
       }    
       
 }
-
+/**
+ * Contrato: <moveGhostP><world> ---> <?>
+ * Proposito: Recibe el mundo y mueve el fantasma violeta en un recorrido especifico dentro de este.
+ */
 function moveGhostP(world){// fantasma purpura
    if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] !== 2 && world.seconds < 5){// movimiento arriba
       if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] == 3){
@@ -572,6 +579,10 @@ function moveGhostP(world){// fantasma purpura
  
  
 }
+/**
+ * Contrato: <moveGhostO><world> ---> <?>
+ * Proposito: Recibe el mundo y mueve el fantasma naranja en un recorrido especifico dentro de este.
+ */
 function moveGhostO(world){// fantasma naranja
    if(MAPA[world.ghostho.y - 1][world.ghostho.x] !== 2 && world.seconds < 5){// movimiento arriba
       if(MAPA[world.ghostho.y - 1][world.ghostho.x] == 3){
@@ -795,8 +806,10 @@ function moveGhostO(world){// fantasma naranja
   }
   
 }
-
-
+/**
+ * Contrato: <moveGhostR><world> ---> <?>
+ * Proposito: Recibe el mundo y mueve el fantasma rojo en un recorrido especifico dentro de este.
+ */
 function moveGhostR(world){// fantasma rojo
    if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] !== 2 && world.seconds < 5){// movimiento arriba
 
@@ -1058,10 +1071,10 @@ function sketchProc(processing) {
       score:0,
       lifes:3,
       pacman:{x:9,y:16,dir:"L"},
-      ghosthb:{x:2,y:2},
+      ghosthb:{x:2,y:5},
       ghostho:{x:9,y:10},
       ghosthp:{x:10,y:7},
-      ghosthr:{x:15,y:20},
+      ghosthr:{x:14,y:20},
       
       
     }
@@ -1150,11 +1163,13 @@ function sketchProc(processing) {
         }
 
         if(block == 9){
-          processing.image(cherry,j * BSIZE,i * BSIZE,22,22) 
+          if(world.time % 2 == 0){
+          processing.image(cherry,j * BSIZE,i * BSIZE,22,22)
+          }
+          else{
+          processing.image(cherry,j * BSIZE,i * BSIZE - 4,22,22)
+          }
         }
-  
-
-       //ghost(world)
       });
     });
     
@@ -1162,7 +1177,7 @@ function sketchProc(processing) {
 
     /**
      * contrato:<textSize><num>-><?>
-     * 	Establece el tamaño de fuente actual. El tamaño de fuente se mide en unidades de píxeles.
+     * Proposito: Establece el tamaño de fuente actual. El tamaño de fuente se mide en unidades de píxeles.
      */
     processing.textSize(20);
     //Dibuja texto en la pantalla. Muestra posición especificada por los parámetros adicionales
@@ -1177,6 +1192,7 @@ function sketchProc(processing) {
 
     processing.text(temp,110,500)
 
+  //Contador del tiempo
    if(world.time % 4 == 0){
 
     world.seconds = world.seconds + 1;
@@ -1189,7 +1205,7 @@ function sketchProc(processing) {
       world.minutes = 0;
     }
   }
-
+  //Me determina el cero a la izquierda de los segundos y los minutos/
       if (world.seconds < 10){
       var secs = "0" + world.seconds;
       }
@@ -1242,7 +1258,7 @@ processing.onKeyEvent = function(world, keyCode){
   if(keyCode == processing.LEFT  ){ //Representa hacia donde se dará el movimiento del pacman
 
     waka.play()
-    waka.volume = 0.03;
+    waka.volume = 0.6;
 
     if( MAPA[world.pacman.y][world.pacman.x -  1] == 0){ //Mueve el pacman a la izquierda si no hay bloqueo
       MAPA[world.pacman.y][world.pacman.x -  1] = 1 //Reemplaza con 1 para representar la posición del pacman
@@ -1293,7 +1309,7 @@ processing.onKeyEvent = function(world, keyCode){
     else if(MAPA[world.pacman.y][world.pacman.x - 1 ]==5 || MAPA[world.pacman.y][world.pacman.x - 1 ]==6 || MAPA[world.pacman.y][world.pacman.x - 1 ]==7 || MAPA[world.pacman.y][world.pacman.x - 1 ]==8){
       
       pacD.play();
-      pacD.volume = 0.06;
+      pacD.volume = 0.6;
       MAPA[world.pacman.y][world.pacman.x] = 0
       MAPA[16][9] = 1
       
@@ -1322,6 +1338,21 @@ processing.onKeyEvent = function(world, keyCode){
       ghosthp:{x:world.ghosthp.x,y:world.ghosthp.y},
       ghosthr:{x:world.ghosthr.x,y:world.ghosthr.y}
     }
+    }  
+    else if(MAPA[world.pacman.y][world.pacman.x - 1] == 9){ //Come la cereza
+
+      fruit.play();
+      fruit.volume = 0.6;
+      world.score = world.score*2
+      MAPA[world.pacman.y][world.pacman.x - 1] = 1
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      return make(world, {
+        pacman:{
+          x: world.pacman.x - 1,
+          y: world.pacman.y,
+          dir: "L"
+        }
+      })
     }
     else{ //Si no ocurre ninguna de las anteriores es porque hay un bloque entonces no deja mover el pacman
       return make(world, {
@@ -1336,7 +1367,7 @@ processing.onKeyEvent = function(world, keyCode){
 
   if(keyCode == processing.RIGHT){
     waka.play()
-    waka.volume = 0.03;
+    waka.volume = 0.6;
   
     if( MAPA[world.pacman.y][world.pacman.x +  1] == 0){
       MAPA[world.pacman.y][world.pacman.x +  1] = 1
@@ -1388,7 +1419,7 @@ processing.onKeyEvent = function(world, keyCode){
     else if(MAPA[world.pacman.y][world.pacman.x + 1 ]==5 ||MAPA[world.pacman.y][world.pacman.x + 1 ]==6 || MAPA[world.pacman.y][world.pacman.x + 1 ]==7 || MAPA[world.pacman.y][world.pacman.x + 1 ]==8){
       
       pacD.play();
-      pacD.volume = 0.06;
+      pacD.volume = 0.6;
       MAPA[world.pacman.y][world.pacman.x] = 0
       MAPA[16][9] = 1
 
@@ -1417,7 +1448,11 @@ processing.onKeyEvent = function(world, keyCode){
         ghosthr:{x:world.ghosthr.x,y:world.ghosthr.y}
       }
     }
-    else if(MAPA[world.pacman.y][world.pacman.x + 1] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
+    else if(MAPA[world.pacman.y][world.pacman.x + 1] == 9){ //Come la cereza
+
+      fruit.play();
+      fruit.volume = 0.6;
+      world.score = world.score*2
       MAPA[world.pacman.y][world.pacman.x + 1] = 1
       MAPA[world.pacman.y][world.pacman.x] = 0
       return make(world, {
@@ -1444,7 +1479,7 @@ processing.onKeyEvent = function(world, keyCode){
   
   if(keyCode == processing.UP){
     waka.play()
-    waka.volume = 0.03;
+    waka.volume = 0.6;
     
     if( MAPA[world.pacman.y - 1][world.pacman.x] == 0){
       MAPA[world.pacman.y - 1][world.pacman.x] = 1
@@ -1484,7 +1519,7 @@ processing.onKeyEvent = function(world, keyCode){
     else if(MAPA[world.pacman.y - 1 ][world.pacman.x]==5 ||MAPA[world.pacman.y - 1 ][world.pacman.x]==6 || MAPA[world.pacman.y - 1 ][world.pacman.x]==7 || MAPA[world.pacman.y - 1 ][world.pacman.x]==8){
       
       pacD.play();
-      pacD.volume = 0.06;
+      pacD.volume = 0.6;
       MAPA[world.pacman.y][world.pacman.x] = 0
       MAPA[16][9] = 1
 
@@ -1511,7 +1546,11 @@ processing.onKeyEvent = function(world, keyCode){
         ghosthr:{x:world.ghosthr.x,y:world.ghosthr.y}
       }
     }
-    else if(MAPA[world.pacman.y - 1][world.pacman.x] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
+    else if(MAPA[world.pacman.y - 1][world.pacman.x] == 9){ //Come la cereza
+
+      fruit.play();
+      fruit.volume = 0.6;
+      world.score = world.score*2
       MAPA[world.pacman.y - 1][world.pacman.x] = 1
       MAPA[world.pacman.y][world.pacman.x] = 0
       return make(world, {
@@ -1535,7 +1574,7 @@ processing.onKeyEvent = function(world, keyCode){
   
   if(keyCode == processing.DOWN){
     waka.play()
-    waka.volume = 0.03;
+    waka.volume = 0.6;
 
     if(world.time % 4 !== 0 ){
       processing.image(PACMAND,world.pacman.x * BSIZE,world.pacman.y * BSIZE,22,22);
@@ -1580,7 +1619,7 @@ processing.onKeyEvent = function(world, keyCode){
     else if(MAPA[world.pacman.y + 1 ][world.pacman.x]==5 ||MAPA[world.pacman.y + 1 ][world.pacman.x]==6 || MAPA[world.pacman.y + 1 ][world.pacman.x]==7 || MAPA[world.pacman.y + 1 ][world.pacman.x]==8){
       
       pacD.play();
-      pacD.volume = 0.06;
+      pacD.volume = 0.6;
       MAPA[world.pacman.y][world.pacman.x] = 0
       MAPA[16][9] = 1
 
@@ -1610,7 +1649,11 @@ processing.onKeyEvent = function(world, keyCode){
         ghosthr:{x:world.ghosthr.x,y:world.ghosthr.y}
       }
     }
-    else if(MAPA[world.pacman.y + 1][world.pacman.x] == 9){ //Teletransporta el pacman del pasillo al izquierdo al  derecho
+    else if(MAPA[world.pacman.y + 1][world.pacman.x] == 9){ //El pacman come la cereza
+
+      fruit.play();
+      fruit.volume = 0.6;
+      world.score = world.score*2
       MAPA[world.pacman.y + 1][world.pacman.x] = 1
       MAPA[world.pacman.y][world.pacman.x] = 0
       return make(world, {
@@ -1659,7 +1702,7 @@ processing.onKeyEvent = function(world, keyCode){
 
   // ******************** De aquí hacia abajo no debe cambiar nada. ********************
 
-  // Esta es la función que pinta todo. Se ejecuta 60 veces por segundo. 
+  // Esta es la función que pinta todo. Se ejecuta 5 veces por segundo. 
   // No cambie esta función. Su código debe ir en drawGame
   processing.draw = function () {
     processing.drawGame(processing.state);
