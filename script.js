@@ -1,6 +1,7 @@
 //Librería functional-light
 let { append, cons, first, isEmpty, isList, length, rest } = functionalLight;
 
+
 //Variables globales y  cargar archivos.
 const waka = new Audio("sound/waka_waka.mp3");
 const music = new Audio("sound/music.mp3");
@@ -22,6 +23,7 @@ var PACMANU = null;
 var PACMAND = null;
 var PACMANC = null;
 
+//variable de minutos y segundos
 var mins = null;
 var secs = null;
 
@@ -63,7 +65,7 @@ const MAPA = [
   /*7*/[0,2,2,3,2,3,2,3,2,2,2,3,2,3,2,3,2,2,0,0,0,0,0,0],
   /*8*/[0,2,3,3,3,3,2,3,3,2,3,3,2,3,3,3,3,2,0,0,0,0,0,0],
   /*9*/[0,2,3,2,2,2,2,2,3,2,3,2,2,2,2,2,3,2,0,0,0,0,0,0],
-  /*0*/[0,2,9,3,3,3,3,3,3,3,3,3,3,3,3,6,9,2,0,0,0,0,0,0],
+  /*0*/[0,2,9,3,3,3,3,3,3,6,3,3,3,3,3,3,9,2,0,0,0,0,0,0],
   /*1*/[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
   /*2*/[0,"life","life","life",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ];
@@ -107,542 +109,374 @@ function forEach(list, fun, index=0){
   }
 }
 
+
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
+}
+
+function leftGhostB(world){
+  if(MAPA[world.ghosthb.y ][world.ghosthb.x - 1] !== 2){ //Movimiento Izquierda
+    if(MAPA[world.ghosthb.y ][world.ghosthb.x - 1] == 3){
+      MAPA[world.ghosthb.y ][world.ghosthb.x - 1] = 5
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3
+    }
+    else if(MAPA[world.ghosthb.y ][world.ghosthb.x - 1] == 0){
+  //Reemplaza el espacio por una posicion    
+      MAPA[world.ghosthb.y ][world.ghosthb.x - 1] = 5 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 0
+    }
+    else if(MAPA[world.ghosthb.y ][world.ghosthb.x - 1] == 4){
+      MAPA[world.ghosthb.y ][world.ghosthb.x - 1] = 5 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 4
+    }
+    else if(MAPA[world.ghosthb.y ][world.ghosthb.x - 1] == 9){
+      MAPA[world.ghosthb.y ][world.ghosthb.x - 1] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 9;
+    }
+    else if(MAPA[world.ghosthb.y][world.ghosthb.x - 1] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghosthb.y][world.ghosthb.x - 1] = 5//Mueve el fantasma 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0
+      }
+      MAPA[16][9] = 1
+      world.lifes = world.lifes - 1
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
+        }
+      })
+    }
+    else if(MAPA[world.ghosthb.y][world.ghosthb.x - 1] == 6){
+      MAPA[world.ghosthb.y ][world.ghosthb.x - 1] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else if(MAPA[world.ghosthb.y][world.ghosthb.x - 1] == 7){
+      MAPA[world.ghosthb.y ][world.ghosthb.x - 1] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else if(MAPA[world.ghosthb.y][world.ghosthb.x - 1] == 8){
+      MAPA[world.ghosthb.y ][world.ghosthb.x - 1] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else{
+      return make(world, {
+        ghosthb:{
+          x: world.ghosthb.x = world.ghosthb.x - 1,
+          y: world.ghosthb.y 
+        }
+      })
+    }
+  }
+}
+
+function rightGhostB(world){
+  if(MAPA[world.ghosthb.y ][world.ghosthb.x + 1] !== 2){ //Movimiento Derecha
+    if(MAPA[world.ghosthb.y ][world.ghosthb.x + 1] == 3){
+      MAPA[world.ghosthb.y ][world.ghosthb.x + 1] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else if(MAPA[world.ghosthb.y ][world.ghosthb.x + 1] == 0){
+      MAPA[world.ghosthb.y ][world.ghosthb.x + 1] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 0;
+    }
+    else if(MAPA[world.ghosthb.y ][world.ghosthb.x + 1] == 4){
+      MAPA[world.ghosthb.y ][world.ghosthb.x + 1] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 4;
+    }
+    else if(MAPA[world.ghosthb.y ][world.ghosthb.x + 1] == 9){
+      MAPA[world.ghosthb.y ][world.ghosthb.x + 1] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 9;
+    }
+    else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5//Mueve el fantasma 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0;
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0;
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0;
+      }
+      MAPA[16][9] = 1;
+      world.lifes = world.lifes-1;
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
+        }
+      })
+    }
+    else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 6){
+      MAPA[world.ghosthb.y ][world.ghosthb.x + 1] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 7){
+      MAPA[world.ghosthb.y ][world.ghosthb.x + 1] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 8){
+      MAPA[world.ghosthb.y ][world.ghosthb.x + 1] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else{
+      //retorna el mundo nuevo
+      return make(world, {
+        ghosthb:{
+          x: world.ghosthb.x = world.ghosthb.x + 1,
+          y: world.ghosthb.y 
+        }
+      })
+    }
+  }
+}
+
+function downGhostB(world){
+  if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] !== 2){ //Movimiento Abajo
+    if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 3){
+      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 4){
+      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 4;
+    }
+    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 0){
+      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 0;
+    }
+    
+    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 9){
+      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 9;
+    }
+    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5//Mueve el fantasma 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0;
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0;
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0;
+      }
+      MAPA[16][9] = 1;
+      world.lifes = world.lifes-1;
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
+        }
+      })
+    }
+    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 6){
+      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 7){
+      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 8){
+      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else{
+      return make(world, {
+        ghosthb:{
+          x: world.ghosthb.x,
+          y: world.ghosthb.y  = world.ghosthb.y + 1 
+        }
+      })
+    }
+  }
+}
+
+function upGhostB(world){
+  if(MAPA[world.ghosthb.y - 1][world.ghosthb.x] !== 2){ //Movimiento Arriba
+    if(MAPA[world.ghosthb.y - 1][world.ghosthb.x] == 3){
+      MAPA[world.ghosthb.y - 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else if(MAPA[world.ghosthb.y - 1][world.ghosthb.x] == 0){
+      MAPA[world.ghosthb.y - 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 0;
+    }
+    else if(MAPA[world.ghosthb.y - 1][world.ghosthb.x] == 4){
+      MAPA[world.ghosthb.y - 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 4;
+    }
+    else if(MAPA[world.ghosthb.y - 1][world.ghosthb.x] == 9){
+      MAPA[world.ghosthb.y - 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 9;
+    }
+    else if(MAPA[world.ghosthb.y - 1][world.ghosthb.x] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghosthb.y - 1][world.ghosthb.x] = 5//Mueve el fantasma 
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0;
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0;
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0;
+      }
+      MAPA[16][9] = 1;
+      world.lifes = world.lifes-1;
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
+        }
+      })
+    }
+    else if(MAPA[world.ghosthb.y - 1][world.ghosthb.x] == 6){
+      MAPA[world.ghosthb.y - 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else if(MAPA[world.ghosthb.y - 1][world.ghosthb.x] == 7){
+      MAPA[world.ghosthb.y - 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else if(MAPA[world.ghosthb.y - 1][world.ghosthb.x] == 8){
+      MAPA[world.ghosthb.y - 1][world.ghosthb.x] = 5;
+      MAPA[world.ghosthb.y][world.ghosthb.x] = 3;
+    }
+    else{
+      return make(world, {
+        ghosthb:{
+          x: world.ghosthb.x,
+          y: world.ghosthb.y  = world.ghosthb.y - 1 
+        }
+      })
+    }
+  }
 }
 
 /**
  * Contrato: <moveGhostB><world> ---> <?>
  * Proposito: Recibe el mundo y mueve el fantasma azul en un recorrido especifico dentro de este.
  */
-function moveGhostB(world){
-  
-   //Mover Abajo
-   if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] !== 2){
-    //Verifica si no es un bloque
-    if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 0){//Verifica si hay un vacío
-      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5 //mueve el fantasma 
-      MAPA[world.ghosthb.y][world.ghosthb.x] = 0 //Deja el vacío 
-    }
-    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x ] == 1){ //Verifica si esta el pacman
-          MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5//Mueve el fantasma 
-          MAPA[world.ghosthb.y][world.ghosthb.x] = 0 //Deja vacío
-
-          pacD.play();
-          pacD.volume = 0.06;
-
-          MAPA[world.pacman.y][world.pacman.x] = 0
-
-
-
-          if(MAPA[22][3] == "life"){
-            MAPA[22][3] = 0
-          }
-          else if(MAPA[22][2] == "life"){
-            MAPA[22][2] = 0
-          }
-          else if(MAPA[22][1] == "life"){
-            MAPA[22][1] = 0
-
-          }
-
-          MAPA[16][9] = 1
-
-     
-          world.lifes = world.lifes -1
-
-          return make(world, {
-            
-            pacman:{
-              x: world.pacman.x = 9,
-              y: world.pacman.y = 16 
-            }
-            
-          })
-
-
-    }
-    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 3){ //Verifica si hay una galleta 
-      
-      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5 //Mueve el fantasma 
-      MAPA[world.ghosthb.y][world.ghosthb.x] = 3  //Deja galleta intacta
-
-    }
-    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 4){ //Verifica si hay una galleta grande
-      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5//Mueve el fantasma 
-      MAPA[world.ghosthb.y][world.ghosthb.x] = 4 //Deja galleta intacta
-
-    }
-    else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 9){ //Verifica si hay una galleta grande
-      MAPA[world.ghosthb.y + 1][world.ghosthb.x] = 5//Mueve el fantasma 
-      MAPA[world.ghosthb.y][world.ghosthb.x] = 9 //Deja galleta intacta
-
-    }
-    
-    else{
-      return make(world, {
-        ghosthb:{
-          x: world.ghosthb.x,
-          y: world.ghosthb.y = world.ghosthb.y - 1 
-        }
-      })
-    }
-    
-  
-    return make(world, {
-      ghosthb:{
-        x: world.ghosthb.x,
-        y: world.ghosthb.y = world.ghosthb.y + 1 
-      }
-    })
-  }
-  //Mover derecha
-  else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] !== 2 && world.seconds < 5 || world.seconds>13){
-
-    if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 0){//Verifica si hay un vacío
-      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5 //mueve el fantasma 
-      MAPA[world.ghosthb.y][world.ghosthb.x] = 0 //Deja el vacío 
-    }
-    else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 3){ //Verifica si hay una galleta 
-      
-      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5 //Mueve el fantasma 
-      MAPA[world.ghosthb.y][world.ghosthb.x] = 3  //Deja galleta intacta
-
-    }
-    else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 4){ //Verifica si hay una galleta grande
-      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5//Mueve el fantasma 
-      MAPA[world.ghosthb.y][world.ghosthb.x] = 4 //Deja galleta intacta
-
-    }
-    else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 9){ //Verifica si hay una galleta grande
-      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5//Mueve el fantasma 
-      MAPA[world.ghosthb.y][world.ghosthb.x] = 9 //Deja galleta intacta
-
-    }
-
-    else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1] == 2){ //Verifica si hay un bloque
-      return make(world, {
-        ghosthb:{
-          x: world.ghosthb.x,
-          y: world.ghosthb.y
-        }
-      })
-    }  
-    else if(MAPA[world.ghosthb.y][world.ghosthb.x + 1 ] == 1){ //Verifica si esta el pacman
-      MAPA[world.ghosthb.y][world.ghosthb.x + 1] = 5//Mueve el fantasma 
-      MAPA[world.ghosthb.y][world.ghosthb.x] = 0 //Deja vacío
-
-      pacD.play();
-      pacD.volume = 0.06;
-
-      MAPA[world.pacman.y][world.pacman.x] = 0
-
-
-
-      if(MAPA[22][3] == "life"){
-        MAPA[22][3] = 0
-      }
-      else if(MAPA[22][2] == "life"){
-        MAPA[22][2] = 0
-      }
-      else if(MAPA[22][1] == "life"){
-        MAPA[22][1] = 0
-
-      }
-
-      MAPA[16][9] = 1
-
- 
-      world.lifes = world.lifes -1
-
-      return make(world, {
-        
-        pacman:{
-          x: world.pacman.x = 9,
-          y: world.pacman.y = 16 
-        }
-        
-      })
-    }
-    
-        return make(world, {
-          ghosthb:{
-            x: world.ghosthb.x = world.ghosthb.x + 1,
-            y: world.ghosthb.y 
-          }
-        })
-      }
-
-      //Mover Izquierda  
-      else if(MAPA[world.ghosthb.y + 1][world.ghosthb.x] == 2 && world.seconds > 5){
-
-        
-        if(MAPA[world.ghosthb.y][world.ghosthb.x - 1] == 0){//Verifica si hay un vacío
-          MAPA[world.ghosthb.y][world.ghosthb.x - 1] = 5 //mueve el fantasma 
-          MAPA[world.ghosthb.y][world.ghosthb.x] = 0 //Deja el vacío 
-        }
-        else if(MAPA[world.ghosthb.y][world.ghosthb.x - 1] == 3){ //Verifica si hay una galleta 
-          
-          MAPA[world.ghosthb.y][world.ghosthb.x - 1] = 5 //Mueve el fantasma 
-          MAPA[world.ghosthb.y][world.ghosthb.x] = 3  //Deja galleta intacta
-
-        }
-        else if(MAPA[world.ghosthb.y][world.ghosthb.x - 1] == 4){ //Verifica si hay una galleta grande
-          MAPA[world.ghosthb.y][world.ghosthb.x - 1] = 5//Mueve el fantasma 
-          MAPA[world.ghosthb.y][world.ghosthb.x] = 4 //Deja galleta intacta
-
-        }
-        else if(MAPA[world.ghosthb.y][world.ghosthb.x - 1]== 9){ //Verifica si hay una galleta grande
-          MAPA[world.ghosthb.y][world.ghosthb.x - 1] = 5//Mueve el fantasma 
-          MAPA[world.ghosthb.y][world.ghosthb.x] = 9 //Deja galleta intacta
-
-        }
-        else if(MAPA[world.ghosthb.y][world.ghosthb.x - 1]== 2){ //Verifica si hay una galleta grande
-          return make(world, {
-            ghosthb:{
-              x: world.ghosthb.x,
-              y: world.ghosthb.y
-            }
-          })
-        }
-        else if(MAPA[world.ghosthb.y][world.ghosthb.x - 1 ] == 1){ //Verifica si esta el pacman
-          MAPA[world.ghosthb.y][world.ghosthb.x - 1] = 5//Mueve el fantasma 
-          MAPA[world.ghosthb.y][world.ghosthb.x] = 0 //Deja vacío
-    
-          pacD.play();
-          pacD.volume = 0.06;
-    
-          MAPA[world.pacman.y][world.pacman.x] = 0
-    
-    
-    
-          if(MAPA[22][3] == "life"){
-            MAPA[22][3] = 0
-          }
-          else if(MAPA[22][2] == "life"){
-            MAPA[22][2] = 0
-          }
-          else if(MAPA[22][1] == "life"){
-            MAPA[22][1] = 0
-    
-          }
-    
-          MAPA[16][9] = 1
-    
-     
-          world.lifes = world.lifes -1
-    
-          return make(world, {
-            
-            pacman:{
-              x: world.pacman.x = 9,
-              y: world.pacman.y = 16 
-            }
-            
-          })
-        }
-        
-        return make(world, {
-          ghosthb:{
-            x: world.ghosthb.x = world.ghosthb.x - 1,
-            y: world.ghosthb.y
-          }
-        })
-      }    
-      
+function moveGhostB2(world){
+ if(world.seconds <= 2){
+   return rightGhostB(world);
+ }
+ else if(world.seconds >=2 && world.seconds <= 4){
+   return upGhostB(world);
+ }
+ else if(world.seconds >=4 && world.seconds <= 6){
+  return leftGhostB(world);
+ }
+ else if(world.seconds >=8 && world.seconds <= 10){
+  return leftGhostB(world);
+ }
+ else if(world.seconds >=10 && world.seconds <= 12){
+  return upGhostB(world);
 }
-/**
- * Contrato: <moveGhostP><world> ---> <?>
- * Proposito: Recibe el mundo y mueve el fantasma violeta en un recorrido especifico dentro de este.
- */
-function moveGhostP(world){// fantasma purpura
-   if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] !== 2 && world.seconds < 5){// movimiento arriba
-      if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] == 3){
-        MAPA[world.ghosthp.y - 1][world.ghosthp.x] = 8 
-        MAPA[world.ghosthp.y][world.ghosthp.x] = 3 
-      }else if(MAPA[world.ghosthp.y - 1 ][world.ghosthp.x ] == 4){
-      MAPA[world.ghosthp.y - 1 ][world.ghosthp.x ] = 8 
-      MAPA[world.ghosthp.y][world.ghosthp.x] = 4
-      }else if(MAPA[world.ghosthp.y - 1 ][world.ghosthp.x ] == 0){
-      MAPA[world.ghosthp.y - 1 ][world.ghosthp.x ] = 8 
-      MAPA[world.ghosthp.y][world.ghosthp.x] = 0
-      }
-      else if(MAPA[world.ghosthp.y - 1 ][world.ghosthp.x] == 1){ //Verifica si esta el pacman
-        MAPA[world.ghosthp.y - 1][world.ghosthp.x] = 5//Mueve el fantasma 
-        MAPA[world.ghosthp.y][world.ghosthp.x] = 0 //Deja vacío
-        pacD.play();
-        pacD.volume = 0.06;
-        MAPA[world.pacman.y][world.pacman.x] = 0
-        if(MAPA[22][3] == "life"){
-          MAPA[22][3] = 0
-        }
-        else if(MAPA[22][2] == "life"){
-          MAPA[22][2] = 0
-        }
-        else if(MAPA[22][1] == "life"){
-          MAPA[22][1] = 0
-        }
-        MAPA[16][9] = 1
-        world.lifes = world.lifes -1
-        return make(world, {
-          pacman:{
-            x: world.pacman.x = 9,
-            y: world.pacman.y = 16 
-          }
-          
-        })
-      }else{
-      return make(world, {
-        ghosthp:{
-          x: world.ghosthp.x,
-          y: world.ghosthp.y = world.ghosthp.y - 1 
-        }
-      })
-    }
-
-  }else if(MAPA[world.ghosthp.y ][world.ghosthp.x +1] !== 2 && world.seconds < 10){//movimiento a la derecha
-    if(MAPA[world.ghosthp.y ][world.ghosthp.x + 1] == 3){
-        MAPA[world.ghosthp.y ][world.ghosthp.x + 1] = 8 
-        MAPA[world.ghosthp.y][world.ghosthp.x] = 3
-    }else if(MAPA[world.ghosthp.y ][world.ghosthp.x + 1] == 9){
-      MAPA[world.ghosthp.y ][world.ghosthp.x + 1] = 8 
-      MAPA[world.ghosthp.y][world.ghosthp.x] = 9
-    }else if(MAPA[world.ghosthp.y ][world.ghosthp.x + 1] == 0){
-      MAPA[world.ghosthp.y ][world.ghosthp.x + 1] = 8 
-      MAPA[world.ghosthp.y][world.ghosthp.x] = 0
-        
-     }else if(MAPA[world.ghosthp.y][world.ghosthp.x + 1] == 1){ //Verifica si esta el pacman
-      MAPA[world.ghosthp.y][world.ghosthp.x + 1] = 5//Mueve el fantasma 
-      MAPA[world.ghosthp.y][world.ghosthp.x] = 0 //Deja vacío
-      pacD.play();
-      pacD.volume = 0.06;
-      MAPA[world.pacman.y][world.pacman.x] = 0
-      if(MAPA[22][3] == "life"){
-        MAPA[22][3] = 0
-      }
-      else if(MAPA[22][2] == "life"){
-        MAPA[22][2] = 0
-      }
-      else if(MAPA[22][1] == "life"){
-        MAPA[22][1] = 0
-      }
-      MAPA[16][9] = 1
-      world.lifes = world.lifes -1
-      return make(world, {
-        pacman:{
-          x: world.pacman.x = 9,
-          y: world.pacman.y = 16 
-        }
-        
-      })
-    }else{
-      return make(world, {
-        ghosthp:{
-          x: world.ghosthp.x = world.ghosthp.x + 1,
-          y: world.ghosthp.y 
-        }
-      })
-  }
-  
-
-  }else if(MAPA[world.ghosthp.y + 1 ][world.ghosthp.x ] !== 2 && world.seconds < 20){//Movimiento hacia abajo
-    if(MAPA[world.ghosthp.y + 1 ][world.ghosthp.x ] == 4){
-      MAPA[world.ghosthp.y + 1 ][world.ghosthp.x ] = 8 
-      MAPA[world.ghosthp.y][world.ghosthp.x] = 4
-    }else if(MAPA[world.ghosthp.y + 1 ][world.ghosthp.x ] == 3){
-      MAPA[world.ghosthp.y + 1][world.ghosthp.x ] = 8 
-      MAPA[world.ghosthp.y][world.ghosthp.x] = 3
-     }else if(MAPA[world.ghosthp.y + 1 ][world.ghosthp.x ] == 0){
-      MAPA[world.ghosthp.y + 1][world.ghosthp.x ] = 8 
-      MAPA[world.ghosthp.y][world.ghosthp.x] = 0 
-    }else if(MAPA[world.ghosthp.y + 1 ][world.ghosthp.x ] == 9){
-      MAPA[world.ghosthp.y + 1][world.ghosthp.x ] = 8 
-      MAPA[world.ghosthp.y][world.ghosthp.x] = 9 
-
-  }else if(MAPA[world.ghosthp.y + 1][world.ghosthp.x] == 1){ //Verifica si esta el pacman
-    MAPA[world.ghosthp.y + 1][world.ghosthp.x] = 5//Mueve el fantasma 
-    MAPA[world.ghosthp.y][world.ghosthp.x] = 0 //Deja vacío
-    pacD.play();
-    pacD.volume = 0.06;
-    MAPA[world.pacman.y][world.pacman.x] = 0
-    if(MAPA[22][3] == "life"){
-      MAPA[22][3] = 0
-    }
-    else if(MAPA[22][2] == "life"){
-      MAPA[22][2] = 0
-    }
-    else if(MAPA[22][1] == "life"){
-      MAPA[22][1] = 0
-    }
-    MAPA[16][9] = 1
-    world.lifes = world.lifes -1
-    return make(world, {
-      pacman:{
-        x: world.pacman.x = 9,
-        y: world.pacman.y = 16 
-      }
-      
-    })
-  }else{
-    return make(world, {
-        ghosthp:{
-          x: world.ghosthp.x ,
-          y: world.ghosthp.y = world.ghosthp.y + 1
-        }
-      })
-
-  }
-  }else if(MAPA[world.ghosthp.y ][world.ghosthp.x - 1] !== 2){
-    if(MAPA[world.ghosthp.y ][world.ghosthp.x - 1] == 3){
-      MAPA[world.ghosthp.y ][world.ghosthp.x - 1] = 8 
-      MAPA[world.ghosthp.y][world.ghosthp.x] = 3
-     }else if(MAPA[world.ghosthp.y ][world.ghosthp.x - 1] == 0){
-      MAPA[world.ghosthp.y ][world.ghosthp.x - 1] = 8 
-      MAPA[world.ghosthp.y][world.ghosthp.x] = 0
-  
-  }else if(MAPA[world.ghosthp.y][world.ghosthp.x - 1] == 1){ //Verifica si esta el pacman
-    MAPA[world.ghosthp.y][world.ghosthp.x - 1] = 5//Mueve el fantasma 
-    MAPA[world.ghosthp.y][world.ghosthp.x] = 0 //Deja vacío
-    pacD.play();
-    pacD.volume = 0.06;
-    MAPA[world.pacman.y][world.pacman.x] = 0
-    if(MAPA[22][3] == "life"){
-      MAPA[22][3] = 0
-    }
-    else if(MAPA[22][2] == "life"){
-      MAPA[22][2] = 0
-    }
-    else if(MAPA[22][1] == "life"){
-      MAPA[22][1] = 0
-    }
-    MAPA[16][9] = 1
-    world.lifes = world.lifes -1
-    return make(world, {
-      pacman:{
-        x: world.pacman.x = 9,
-        y: world.pacman.y = 16 
-      }
-      
-    })
-  }else{
-    return make(world, {
-        ghosthp:{
-          x: world.ghosthp.x = world.ghosthp.x - 1,
-          y: world.ghosthp.y 
-        }
-      })
-
-  }
-  }else if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] !== 2  ){// movimiento arriba
-       if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] == 3){
-        MAPA[world.ghosthp.y - 1][world.ghosthp.x] = 8 
-        MAPA[world.ghosthp.y][world.ghosthp.x] = 3 
-       }else if(MAPA[world.ghosthp.y - 1 ][world.ghosthp.x ] == 4){
-        MAPA[world.ghosthp.y - 1 ][world.ghosthp.x ] = 8 
-        MAPA[world.ghosthp.y][world.ghosthp.x] = 4
-        }
-        else if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] == 1){ //Verifica si esta el pacman
-          MAPA[world.ghosthp.y - 1][world.ghosthp.x] = 5//Mueve el fantasma 
-          MAPA[world.ghosthp.y][world.ghosthp.x] = 0 //Deja vacío
-          pacD.play();
-          pacD.volume = 0.06;
-          MAPA[world.pacman.y][world.pacman.x] = 0
-          if(MAPA[22][3] == "life"){
-            MAPA[22][3] = 0
-          }
-          else if(MAPA[22][2] == "life"){
-            MAPA[22][2] = 0
-          }
-          else if(MAPA[22][1] == "life"){
-            MAPA[22][1] = 0
-          }
-          MAPA[16][9] = 1
-          world.lifes = world.lifes -1
-          return make(world, {
-            pacman:{
-              x: world.pacman.x = 9,
-              y: world.pacman.y = 16 
-            }
-            
-          })
-        }else{
-        return make(world, {
-        ghosthp:{
-          x: world.ghosthp.x,
-          y: world.ghosthp.y = world.ghosthp.y - 1 
-        }
-      })
-    }
-
-  }
-  
- 
- 
+else if(world.seconds >=12 && world.seconds <= 14){
+ return rightGhostB(world);
 }
-/**
- * Contrato: <moveGhostO><world> ---> <?>
- * Proposito: Recibe el mundo y mueve el fantasma naranja en un recorrido especifico dentro de este.
- */
-function moveGhostO(world){// fantasma naranja
-   if(MAPA[world.ghostho.y - 1][world.ghostho.x] !== 2 && world.seconds < 5){// movimiento arriba
-      if(MAPA[world.ghostho.y - 1][world.ghostho.x] == 3){
-        MAPA[world.ghostho.y - 1][world.ghostho.x] = 7 
-        MAPA[world.ghostho.y][world.ghostho.x] = 3 
-      }else if(MAPA[world.ghostho.y - 1 ][world.ghostho.x ] == 4){
-      MAPA[world.ghostho.y - 1 ][world.ghostho.x ] = 7 
+else if(world.seconds >=14 && world.seconds <= 16){
+ return downGhostB(world);
+}
+else if(world.seconds >=16 && world.seconds <= 18){
+  return leftGhostB(world);
+ }
+ else if(world.seconds >=18 && world.seconds <= 20){
+  return downGhostB(world);
+}
+else if(world.seconds >=20 && world.seconds <= 22){
+ return leftGhostB(world);
+}
+else if(world.seconds >=22 && world.seconds <= 24){
+ return upGhostB(world);
+}
+  else if(world.seconds >=24 && world.seconds <= 26){
+    return rightGhostB(world);
+}
+ else if(world.seconds >=26 && world.seconds <= 28){
+  return upGhostB(world);
+  } 
+  else if(world.seconds >=28 && world.seconds <= 30){
+    return leftGhostB(world);
+  }
+  else if(world.seconds >=30 && world.seconds <= 32){
+    return downGhostB(world);
+  }
+  else if(world.seconds >=32 && world.seconds <= 34){
+    return downGhostB(world);
+  }
+  else if(world.seconds >=36 && world.seconds <= 38){
+    return rightGhostB(world);
+}
+ else if(world.seconds >=40 && world.seconds <= 43){
+  return upGhostB(world);
+  } 
+  else if(world.seconds >=44 && world.seconds <= 46){
+    return leftGhostB(world);
+  }
+  else if(world.seconds >=48 && world.seconds <= 50){
+    return downGhostB(world);
+  }
+  else if(world.seconds >=52 && world.seconds <= 54){
+    return rightGhostB(world);
+}
+ else if(world.seconds >=56 && world.seconds <= 58){
+  return upGhostB(world);
+  } 
+  else if(world.seconds >=58 && world.seconds <= 59){
+    return leftGhostB(world);
+  }
+}
+
+
+function leftGhostO(world){
+  if(MAPA[world.ghostho.y ][world.ghostho.x - 1] !== 2){ //Movimiento Izquierda
+    if(MAPA[world.ghostho.y ][world.ghostho.x - 1] == 3){
+      MAPA[world.ghostho.y ][world.ghostho.x - 1] = 7
+      MAPA[world.ghostho.y][world.ghostho.x] = 3
+    }
+    else if(MAPA[world.ghostho.y ][world.ghostho.x - 1] == 0){
+      MAPA[world.ghostho.y ][world.ghostho.x - 1] = 7
+      MAPA[world.ghostho.y][world.ghostho.x] = 0
+    }
+    else if(MAPA[world.ghostho.y ][world.ghostho.x - 1] == 4){
+      MAPA[world.ghostho.y ][world.ghostho.x - 1] = 7
       MAPA[world.ghostho.y][world.ghostho.x] = 4
-      }else if(MAPA[world.ghostho.y - 1 ][world.ghostho.x ] == 0){
-      MAPA[world.ghostho.y - 1 ][world.ghostho.x ] = 7
-      MAPA[world.ghostho.y][world.ghostho.x] = 0
-      }else if(MAPA[world.ghostho.y - 1][world.ghostho.x] == 1){ //Verifica si esta el pacman
-          MAPA[world.ghostho.y - 1][world.ghostho.x] = 5//Mueve el fantasma 
-          MAPA[world.ghostho.y][world.ghostho.x] = 0 //Deja vacío
-          pacD.play();
-          pacD.volume = 0.06;
-          MAPA[world.pacman.y][world.pacman.x] = 0
-          if(MAPA[22][3] == "life"){
-            MAPA[22][3] = 0
-          }
-          else if(MAPA[22][2] == "life"){
-            MAPA[22][2] = 0
-          }
-          else if(MAPA[22][1] == "life"){
-            MAPA[22][1] = 0
-          }
-          MAPA[16][9] = 1
-          world.lifes = world.lifes -1
-          return make(world, {
-            pacman:{
-              x: world.pacman.x = 9,
-              y: world.pacman.y = 16 
-            }
-            
-          })
-        }else{
-      return make(world, {
-        ghostho:{
-          x: world.ghostho.x,
-          y: world.ghostho.y = world.ghostho.y - 1 
-        }
-      })
     }
-
-  }else if(MAPA[world.ghostho.y ][world.ghostho.x +1] !== 2 && world.seconds < 5){//movimiento a la derech
-    if(MAPA[world.ghostho.y ][world.ghostho.x + 1] == 3){
-        MAPA[world.ghostho.y ][world.ghostho.x + 1] = 7 
-        MAPA[world.ghostho.y][world.ghostho.x] = 3
-    }else if(MAPA[world.ghostho.y ][world.ghostho.x + 1] == 9){
-      MAPA[world.ghostho.y ][world.ghostho.x + 1] = 7 
-      MAPA[world.ghostho.y][world.ghostho.x] = 9
-    }else if(MAPA[world.ghostho.y ][world.ghostho.x + 1] == 0){
-      MAPA[world.ghostho.y ][world.ghostho.x + 1] = 7 
-      MAPA[world.ghostho.y][world.ghostho.x] = 0
-        
-     }else if(MAPA[world.ghostho.y][world.ghostho.x + 1] == 1){ //Verifica si esta el pacman
-      MAPA[world.ghostho.y][world.ghostho.x + 1] = 5//Mueve el fantasma 
+    else if(MAPA[world.ghostho.y ][world.ghostho.x - 1] == 9){
+      MAPA[world.ghostho.y ][world.ghostho.x - 1] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 9;
+    }
+    else if(MAPA[world.ghostho.y][world.ghostho.x - 1] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghostho.y][world.ghostho.x - 1] = 7//Mueve el fantasma 
       MAPA[world.ghostho.y][world.ghostho.x] = 0 //Deja vacío
       pacD.play();
-      pacD.volume = 0.06;
+      pacD.volume = 0.6;
       MAPA[world.pacman.y][world.pacman.x] = 0
       if(MAPA[22][3] == "life"){
         MAPA[22][3] = 0
@@ -654,390 +488,902 @@ function moveGhostO(world){// fantasma naranja
         MAPA[22][1] = 0
       }
       MAPA[16][9] = 1
-      world.lifes = world.lifes -1
+      world.lifes = world.lifes - 1
       return make(world, {
         pacman:{
           x: world.pacman.x = 9,
           y: world.pacman.y = 16 
         }
-        
       })
-    }else{
+    }
+    else if(MAPA[world.ghostho.y][world.ghostho.x - 1] == 6){
+      MAPA[world.ghostho.y ][world.ghostho.x - 1] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
+    }
+    else if(MAPA[world.ghostho.y][world.ghostho.x - 1] == 5){
+      MAPA[world.ghostho.y ][world.ghostho.x - 1] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
+    }
+    else if(MAPA[world.ghostho.y][world.ghostho.x - 1] == 8){
+      MAPA[world.ghostho.y ][world.ghostho.x - 1] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
+    }
+    else{
+      return make(world, {
+        ghostho:{
+          x: world.ghostho.x = world.ghostho.x - 1,
+          y: world.ghostho.y 
+        }
+      })
+    }
+  }
+}
+
+function rightGhostO(world){
+  if(MAPA[world.ghostho.y ][world.ghostho.x + 1] !== 2){ //Movimiento Derecha
+    if(MAPA[world.ghostho.y ][world.ghostho.x + 1] == 3){
+      MAPA[world.ghostho.y ][world.ghostho.x + 1] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
+    }
+    else if(MAPA[world.ghostho.y ][world.ghostho.x + 1] == 0){
+      MAPA[world.ghostho.y ][world.ghostho.x + 1] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 0;
+    }
+    else if(MAPA[world.ghostho.y ][world.ghostho.x + 1] == 4){
+      MAPA[world.ghostho.y ][world.ghostho.x + 1] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 4;
+    }
+    else if(MAPA[world.ghostho.y ][world.ghostho.x + 1] == 9){
+      MAPA[world.ghostho.y ][world.ghostho.x + 1] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 9;
+    }
+    else if(MAPA[world.ghostho.y][world.ghostho.x + 1] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghostho.y][world.ghostho.x + 1] = 7//Mueve el fantasma 
+      MAPA[world.ghostho.y][world.ghostho.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0;
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0;
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0;
+      }
+      MAPA[16][9] = 1;
+      world.lifes = world.lifes-1;
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
+        }
+      })
+    }
+    else if(MAPA[world.ghostho.y][world.ghostho.x + 1] == 6){
+      MAPA[world.ghostho.y ][world.ghostho.x + 1] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
+    }
+    else if(MAPA[world.ghostho.y][world.ghostho.x + 1] == 5){
+      MAPA[world.ghostho.y ][world.ghostho.x + 1] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
+    }
+    else if(MAPA[world.ghostho.y][world.ghostho.x + 1] == 8){
+      MAPA[world.ghostho.y ][world.ghostho.x + 1] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
+    }
+    else{
       return make(world, {
         ghostho:{
           x: world.ghostho.x = world.ghostho.x + 1,
           y: world.ghostho.y 
         }
       })
+    }
   }
-  
+}
 
-  }else if(MAPA[world.ghostho.y + 1 ][world.ghostho.x ] !== 2 && world.seconds < 20){//Movimiento hacia abajo
-    if(MAPA[world.ghostho.y + 1 ][world.ghostho.x ] == 4){
-      MAPA[world.ghostho.y + 1 ][world.ghostho.x ] = 7 
-      MAPA[world.ghostho.y][world.ghostho.x] = 4
-    }else if(MAPA[world.ghostho.y + 1 ][world.ghostho.x ] == 3){
-      MAPA[world.ghostho.y + 1][world.ghostho.x ] = 7 
-      MAPA[world.ghostho.y][world.ghostho.x] = 3
-     }else if(MAPA[world.ghostho.y + 1 ][world.ghostho.x ] == 0){
-      MAPA[world.ghostho.y + 1][world.ghostho.x ] = 7 
-      MAPA[world.ghostho.y][world.ghostho.x] = 0 
-    }else if(MAPA[world.ghostho.y + 1 ][world.ghostho.x ] == 9){
-      MAPA[world.ghostho.y + 1][world.ghostho.x ] = 7 
-      MAPA[world.ghostho.y][world.ghostho.x] = 9 
-
-
-  }else if(MAPA[world.ghostho.y + 1][world.ghostho.x] == 1){ //Verifica si esta el pacman
-    MAPA[world.ghostho.y + 1][world.ghostho.x] = 5//Mueve el fantasma 
-    MAPA[world.ghostho.y][world.ghostho.x] = 0 //Deja vacío
-    pacD.play();
-    pacD.volume = 0.06;
-    MAPA[world.pacman.y][world.pacman.x] = 0
-    if(MAPA[22][3] == "life"){
-      MAPA[22][3] = 0
+function downGhostO(world){
+  if(MAPA[world.ghostho.y + 1][world.ghostho.x] !== 2){ //Movimiento Derecha
+    if(MAPA[world.ghostho.y + 1][world.ghostho.x] == 3){
+      MAPA[world.ghostho.y + 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
     }
-    else if(MAPA[22][2] == "life"){
-      MAPA[22][2] = 0
+    else if(MAPA[world.ghostho.y + 1][world.ghostho.x] == 4){
+      MAPA[world.ghostho.y + 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 4;
     }
-    else if(MAPA[22][1] == "life"){
-      MAPA[22][1] = 0
+    else if(MAPA[world.ghostho.y + 1][world.ghostho.x] == 0){
+      MAPA[world.ghostho.y + 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 0;
     }
-    MAPA[16][9] = 1
-    world.lifes = world.lifes -1
-    return make(world, {
-      pacman:{
-        x: world.pacman.x = 9,
-        y: world.pacman.y = 16 
+    
+    else if(MAPA[world.ghostho.y + 1][world.ghostho.x] == 9){
+      MAPA[world.ghostho.y + 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 9;
+    }
+    else if(MAPA[world.ghostho.y + 1][world.ghostho.x] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghostho.y + 1][world.ghostho.x] = 7//Mueve el fantasma 
+      MAPA[world.ghostho.y][world.ghostho.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0;
       }
-      
-    })
-
-  }else{
-    return make(world, {
-        ghostho:{
-          x: world.ghostho.x ,
-          y: world.ghostho.y = world.ghostho.y + 1
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0;
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0;
+      }
+      MAPA[16][9] = 1;
+      world.lifes = world.lifes-1;
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
         }
       })
-
-  }
-  }else if(MAPA[world.ghostho.y ][world.ghostho.x - 1] !== 2){ //Mover izquierda
-    if(MAPA[world.ghostho.y ][world.ghostho.x - 1] == 3){
-      MAPA[world.ghostho.y ][world.ghostho.x - 1] = 7 
-      MAPA[world.ghostho.y][world.ghostho.x] = 3
-     }else if(MAPA[world.ghostho.y ][world.ghostho.x - 1] == 0){
-      MAPA[world.ghostho.y ][world.ghostho.x - 1] = 7 
-      MAPA[world.ghostho.y][world.ghostho.x] = 0
-        
-  }else if(MAPA[world.ghostho.y][world.ghostho.x - 1] == 1){ //Verifica si esta el pacman
-    MAPA[world.ghostho.y][world.ghostho.x - 1] = 5//Mueve el fantasma 
-    MAPA[world.ghostho.y][world.ghostho.x] = 0 //Deja vacío
-    pacD.play();
-    pacD.volume = 0.06;
-    MAPA[world.pacman.y][world.pacman.x] = 0
-    if(MAPA[22][3] == "life"){
-      MAPA[22][3] = 0
     }
-    else if(MAPA[22][2] == "life"){
-      MAPA[22][2] = 0
+    else if(MAPA[world.ghostho.y + 1][world.ghostho.x] == 6){
+      MAPA[world.ghostho.y + 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
     }
-    else if(MAPA[22][1] == "life"){
-      MAPA[22][1] = 0
+    else if(MAPA[world.ghostho.y + 1][world.ghostho.x] == 5){
+      MAPA[world.ghostho.y + 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
     }
-    MAPA[16][9] = 1
-    world.lifes = world.lifes -1
-    return make(world, {
-      pacman:{
-        x: world.pacman.x = 9,
-        y: world.pacman.y = 16 
-      }
-      
-    })
-  }else{
-    return make(world, {
-        ghostho:{
-          x: world.ghostho.x = world.ghostho.x - 1,
-          y: world.ghostho.y 
-        }
-      })
-
-  }
-  }else if(MAPA[world.ghostho.y - 1][world.ghostho.x] !== 2  ){// movimiento arriba
-       if(MAPA[world.ghostho.y - 1][world.ghostho.x] == 3){
-        MAPA[world.ghostho.y - 1][world.ghostho.x] = 7
-        MAPA[world.ghostho.y][world.ghostho.x] = 3 
-       }else if(MAPA[world.ghostho.y - 1 ][world.ghostho.x ] == 4){
-      MAPA[world.ghostho.y - 1 ][world.ghostho.x ] = 7 
-      MAPA[world.ghostho.y][world.ghostho.x] = 4
-        }
-        else if(MAPA[world.ghostho.y + 1][world.ghostho.x] == 1){ //Verifica si esta el pacman
-          MAPA[world.ghostho.y + 1][world.ghostho.x] = 5//Mueve el fantasma 
-          MAPA[world.ghostho.y][world.ghostho.x] = 0 //Deja vacío
-          pacD.play();
-          pacD.volume = 0.06;
-          MAPA[world.pacman.y][world.pacman.x] = 0
-          if(MAPA[22][3] == "life"){
-            MAPA[22][3] = 0
-          }
-          else if(MAPA[22][2] == "life"){
-            MAPA[22][2] = 0
-          }
-          else if(MAPA[22][1] == "life"){
-            MAPA[22][1] = 0
-          }
-          MAPA[16][9] = 1
-          world.lifes = world.lifes -1
-          return make(world, {
-            pacman:{
-              x: world.pacman.x = 9,
-              y: world.pacman.y = 16 
-            }
-            
-          })
-        }else{
+    else if(MAPA[world.ghostho.y + 1][world.ghostho.x] == 8){
+      MAPA[world.ghostho.y + 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
+    }
+    else{
       return make(world, {
         ghostho:{
           x: world.ghostho.x,
-          y: world.ghostho.y = world.ghostho.y - 1 
+          y: world.ghostho.y  = world.ghostho.y + 1 
         }
       })
     }
+  }
+}
 
+function upGhostO(world){
+  if(MAPA[world.ghostho.y - 1][world.ghostho.x] !== 2){ //Movimiento Derecha
+    if(MAPA[world.ghostho.y - 1][world.ghostho.x] == 3){
+      MAPA[world.ghostho.y - 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
+    }
+    else if(MAPA[world.ghostho.y - 1][world.ghostho.x] == 0){
+      MAPA[world.ghostho.y - 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 0;
+    }
+    else if(MAPA[world.ghostho.y - 1][world.ghostho.x] == 4){
+      MAPA[world.ghostho.y - 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 4;
+    }
+    else if(MAPA[world.ghostho.y - 1][world.ghostho.x] == 9){
+      MAPA[world.ghostho.y - 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 9;
+    }
+    else if(MAPA[world.ghostho.y - 1][world.ghostho.x] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghostho.y - 1][world.ghostho.x] = 7//Mueve el fantasma 
+      MAPA[world.ghostho.y][world.ghostho.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0;
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0;
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0;
+      }
+      MAPA[16][9] = 1;
+      world.lifes = world.lifes-1;
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
+        }
+      })
+    }
+    else if(MAPA[world.ghostho.y - 1][world.ghostho.x] == 6){
+      MAPA[world.ghostho.y - 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
+    }
+    else if(MAPA[world.ghostho.y - 1][world.ghostho.x] == 5){
+      MAPA[world.ghostho.y - 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
+    }
+    else if(MAPA[world.ghostho.y - 1][world.ghostho.x] == 8){
+      MAPA[world.ghostho.y - 1][world.ghostho.x] = 7;
+      MAPA[world.ghostho.y][world.ghostho.x] = 3;
+    }
+    else{
+      return make(world, {
+        ghostho:{
+          x: world.ghostho.x,
+          y: world.ghostho.y  = world.ghostho.y - 1 
+        }
+      })
+    }
+  }
+}
+
+/**
+ * contrato:<moveGhostO2><world>--><?>
+ * proposito: Recibe el mundo y mueve el fantasma naranja en un recorrido especifico dentro de este.
+ */
+function moveGhostO2(world){
+  if(world.seconds <= 3){
+    return upGhostO(world)
+  }
+  else if(world.seconds >= 4 && world.seconds <= 5){
+    return leftGhostO(world)
+  }
+  else if(world.seconds >= 5 && world.seconds <= 6){
+    return downGhostO(world)
+  }
+  else if(world.seconds >= 6 && world.seconds <= 10){
+    return rightGhostO(world)
+  }
+  else if(world.seconds >= 10 && world.seconds <= 15){
+    return downGhostO(world)
+  }
+  else if(world.seconds >= 15 && world.seconds <= 18){
+    return downGhostO(world)
+  }
+  else if(world.seconds >= 18  && world.seconds <= 20){
+    return leftGhostO(world)
+  }
+  else if(world.seconds >= 20 && world.seconds <= 23){
+    return downGhostO(world)
+  }
+  else if(world.seconds >= 23 && world.seconds <= 28){
+    return leftGhostO(world)
+  }
+    else if(world.seconds >= 28 && world.seconds <= 29){
+    return downGhostO(world)
+  }
+  else if(world.seconds >= 29 && world.seconds <= 35){
+    return rightGhostO(world)
   }
   
+  else if(world.seconds >= 35 && world.seconds <= 45){
+    return upGhostO(world)
+  }
+  else if(world.seconds >= 45 && world.seconds <= 50){
+    return rightGhostO(world)
+  }
+  else if(world.seconds >= 50 && world.seconds <= 55){
+    return downGhostO(world)
+  }
+  else if(world.seconds >= 55 && world.seconds <= 59){
+    return leftGhostO(world)
+  }
 }
-/**
- * Contrato: <moveGhostR><world> ---> <?>
- * Proposito: Recibe el mundo y mueve el fantasma rojo en un recorrido especifico dentro de este.
- */
-function moveGhostR(world){// fantasma rojo
-   if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] !== 2 && world.seconds < 5){// movimiento arriba
 
-      if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] == 3){
-        MAPA[world.ghosthr.y - 1][world.ghosthr.x] = 6 
-        MAPA[world.ghosthr.y][world.ghosthr.x] = 3 
 
-      }else if(MAPA[world.ghosthr.y - 1 ][world.ghosthr.x ] == 4){
-        MAPA[world.ghosthr.y - 1 ][world.ghosthr.x ] = 6
-        MAPA[world.ghosthr.y][world.ghosthr.x] = 4
-      }else if(MAPA[world.ghosthr.y - 1 ][world.ghosthr.x ] == 0){
-        MAPA[world.ghosthr.y - 1 ][world.ghosthr.x ] = 6 
-        MAPA[world.ghosthr.y][world.ghosthr.x] = 0
+function downGhostP(world){
+
+  if(MAPA[world.ghosthp.y + 1][world.ghosthp.x] !== 2){ //Movimiento Derecha
+    if(MAPA[world.ghosthp.y + 1][world.ghosthp.x] == 3){
+      MAPA[world.ghosthp.y + 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 3;
+    }
+    else if(MAPA[world.ghosthp.y + 1][world.ghosthp.x] == 4){
+      MAPA[world.ghosthp.y + 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 4;
+    }
+    else if(MAPA[world.ghosthp.y + 1][world.ghosthp.x] == 0){
+      MAPA[world.ghosthp.y + 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 0;
+    }
+    
+    else if(MAPA[world.ghosthp.y + 1][world.ghosthp.x] == 9){
+      MAPA[world.ghosthp.y + 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 9;
+    }
+    else if(MAPA[world.ghosthp.y + 1][world.ghosthp.x] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghosthp.y + 1][world.ghosthp.x] = 8//Mueve el fantasma 
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0;
       }
-      else if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] == 1){ //Verifica si esta el pacman
-        MAPA[world.ghosthr.y - 1][world.ghosthr.x] = 5//Mueve el fantasma 
-        MAPA[world.ghosthr.y][world.ghosthr.x] = 0 //Deja vacío
-        pacD.play();
-        pacD.volume = 0.06;
-        MAPA[world.pacman.y][world.pacman.x] = 0
-        if(MAPA[22][3] == "life"){
-          MAPA[22][3] = 0
-        }
-        else if(MAPA[22][2] == "life"){
-          MAPA[22][2] = 0
-        }
-        else if(MAPA[22][1] == "life"){
-          MAPA[22][1] = 0
-        }
-        MAPA[16][9] = 1
-        world.lifes = world.lifes -1
-        return make(world, {
-          pacman:{
-            x: world.pacman.x = 9,
-            y: world.pacman.y = 16 
-          }
-          
-        })
-      }else{
-        return make(world, {
-        ghosthr:{
-          x: world.ghosthr.x,
-          y: world.ghosthr.y = world.ghosthr.y - 1 
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0;
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0;
+      }
+      MAPA[16][9] = 1;
+      world.lifes = world.lifes-1;
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
         }
       })
     }
+    else if(MAPA[world.ghosthp.y + 1][world.ghosthp.x] == 6){
+      MAPA[world.ghosthp.y + 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 6;
+    }
+    else if(MAPA[world.ghosthp.y + 1][world.ghosthp.x] == 5){
+      MAPA[world.ghosthp.y + 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 5;
+    }
+    else if(MAPA[world.ghosthp.y + 1][world.ghosthp.x] == 7){
+      MAPA[world.ghosthp.y + 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 7;
+    }
+    else{
+      return make(world, {
+        ghosthb:{
+          x: world.ghosthp.x,
+          y: world.ghosthp.y  = world.ghosthp.y + 1 
+        }
+      })
+    }
+  }
+}
 
-  }else if(MAPA[world.ghosthr.y ][world.ghosthr.x +1] !== 2 && world.seconds < 10){//movimiento a la derech
-    if(MAPA[world.ghosthr.y ][world.ghosthr.x + 1] == 3){
-        MAPA[world.ghosthr.y ][world.ghosthr.x + 1] = 6 
-        MAPA[world.ghosthr.y][world.ghosthr.x] = 3
-    }else if(MAPA[world.ghosthr.y ][world.ghosthr.x + 1] == 9){
-      MAPA[world.ghosthr.y ][world.ghosthr.x + 1] = 6 
-      MAPA[world.ghosthr.y][world.ghosthr.x] = 9
-    }else if(MAPA[world.ghosthr.y ][world.ghosthr.x + 1] == 0){
-      MAPA[world.ghosthr.y ][world.ghosthr.x + 1] = 6 
+function upGhostP(world){
+  if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] !== 2){ //Movimiento Derecha
+    if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] == 3){
+      MAPA[world.ghosthp.y - 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 3;
+    }
+    else if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] == 0){
+      MAPA[world.ghosthp.y - 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 0;
+    }
+    else if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] == 4){
+      MAPA[world.ghosthp.y - 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 4;
+    }
+    else if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] == 9){
+      MAPA[world.ghosthp.y - 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 9;
+    }
+    else if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghosthp.y - 1][world.ghosthp.x] = 8//Mueve el fantasma 
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0;
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0;
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0;
+      }
+      MAPA[16][9] = 1;
+      world.lifes = world.lifes-1;
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
+        }
+      })
+    }
+    else if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] == 6){
+      MAPA[world.ghosthp.y - 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 6;
+    }
+    else if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] == 5){
+      MAPA[world.ghosthp.y - 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 5;
+    }
+    else if(MAPA[world.ghosthp.y - 1][world.ghosthp.x] == 7){
+      MAPA[world.ghosthp.y - 1][world.ghosthp.x] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 7;
+    }
+    else{
+      return make(world, {
+        ghosthb:{
+          x: world.ghosthp.x,
+          y: world.ghosthp.y  = world.ghosthp.y - 1 
+        }
+      })
+    }
+  }
+}
+function leftGhostP(world){
+  if(MAPA[world.ghosthp.y ][world.ghosthp.x - 1] !== 2){ //Movimiento Izquierda
+    if(MAPA[world.ghosthp.y ][world.ghosthp.x - 1] == 3){
+      MAPA[world.ghosthp.y ][world.ghosthp.x - 1] = 8
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 3
+    }
+    else if(MAPA[world.ghosthp.y ][world.ghosthp.x - 1] == 0){
+      MAPA[world.ghosthp.y ][world.ghosthp.x - 1] = 8 
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 0
+    }
+    else if(MAPA[world.ghosthp.y ][world.ghosthp.x - 1] == 9){
+      MAPA[world.ghosthp.y ][world.ghosthp.x - 1] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 9;
+    }
+    else if(MAPA[world.ghosthp.y][world.ghosthp.x - 1] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghosthp.y][world.ghosthp.x - 1] = 8//Mueve el fantasma 
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0
+      }
+      MAPA[16][9] = 1
+      world.lifes = world.lifes - 1
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
+        }
+      })
+    }
+    else if(MAPA[world.ghosthp.y][world.ghosthp.x - 1] == 6){
+      MAPA[world.ghosthp.y ][world.ghosthp.x - 1] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 6;
+    }
+    else if(MAPA[world.ghosthp.y][world.ghosthp.x - 1] == 5){
+      MAPA[world.ghosthp.y ][world.ghosthp.x - 1] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 5;
+    }
+    else if(MAPA[world.ghosthp.y][world.ghosthp.x - 1] == 7){
+      MAPA[world.ghosthp.y ][world.ghosthp.x - 1] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 7;
+    }
+    else{
+      return make(world, {
+        ghosthb:{
+          x: world.ghosthp.x = world.ghosthp.x - 1,
+          y: world.ghosthp.y 
+        }
+      })
+    }
+  }
+}
+
+function rightGhostP(world){
+  
+  if(MAPA[world.ghosthp.y ][world.ghosthp.x + 1] !== 2){ //Movimiento Derecha
+    if(MAPA[world.ghosthp.y ][world.ghosthp.x + 1] == 3){
+      MAPA[world.ghosthp.y ][world.ghosthp.x + 1] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 3;
+    }
+    else if(MAPA[world.ghosthp.y ][world.ghosthp.x + 1] == 0){
+      MAPA[world.ghosthp.y ][world.ghosthp.x + 1] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 0;
+    }
+    else if(MAPA[world.ghosthp.y ][world.ghosthp.x + 1] == 4){
+      MAPA[world.ghosthp.y ][world.ghosthp.x + 1] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 4;
+    }
+    else if(MAPA[world.ghosthp.y ][world.ghosthp.x + 1] == 9){
+      MAPA[world.ghosthp.y ][world.ghosthp.x + 1] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 9;
+    }
+    else if(MAPA[world.ghosthp.y][world.ghosthp.x + 1] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghosthp.y][world.ghosthp.x + 1] = 8//Mueve el fantasma 
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0;
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0;
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0;
+      }
+      MAPA[16][9] = 1;
+      world.lifes = world.lifes-1;
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
+        }
+      })
+    }
+    else if(MAPA[world.ghosthp.y][world.ghosthp.x + 1] == 6){
+      MAPA[world.ghosthp.y ][world.ghosthp.x + 1] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 6;
+    }
+    else if(MAPA[world.ghosthp.y][world.ghosthp.x + 1] == 7){
+      MAPA[world.ghosthp.y ][world.ghosthp.x + 1] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 7;
+    }
+    else if(MAPA[world.ghosthp.y][world.ghosthp.x + 1] == 5){
+      MAPA[world.ghosthp.y ][world.ghosthp.x + 1] = 8;
+      MAPA[world.ghosthp.y][world.ghosthp.x] = 5;
+    }
+    else{
+      return make(world, {
+        ghosthb:{
+          x: world.ghosthp.x = world.ghosthp.x + 1,
+          y: world.ghosthp.y 
+        }
+      })
+    }
+  }
+}
+
+/**
+ * contrato: <moveGhostP2><world>---><?>
+ * proposito: Recibe el mundo y mueve el fantasma violeta en un recorrido especifico dentro de este.
+ */
+function moveGhostP2(world){
+  if(world.seconds <= 3){
+    return upGhostP(world)
+  }
+  else if(world.seconds >= 3 && world.seconds <= 7){
+    return rightGhostP(world)
+  }
+  else if(world.seconds >= 5 && world.seconds <= 9){
+    return downGhostP(world)
+  }
+  else if(world.seconds >= 8 && world.seconds <= 11){
+    return leftGhostP(world)
+  }
+  else if(world.seconds >= 10 && world.seconds <= 16){
+    return downGhostP(world)
+  }
+  else if(world.seconds >= 16 && world.seconds <= 21){
+    return leftGhostP(world)
+  }
+  else if(world.seconds >= 21  && world.seconds <= 26){
+    return upGhostP(world)
+  }
+  else if(world.seconds >= 26 && world.seconds <= 30){
+    return downGhostP(world)
+  }
+  else if(world.seconds >= 30 && world.seconds <= 32){
+    return leftGhostP(world)
+  }
+   else if(world.seconds >= 32 && world.seconds <= 36){
+    return rightGhostP(world)
+  }
+  else if(world.seconds >= 36 && world.seconds <= 40){
+    return leftGhostP(world)
+  }
+  else if(world.seconds >= 40 && world.seconds <= 44){
+    return rightGhostP(world)
+  }
+  else if(world.seconds >= 44 && world.seconds <= 46){
+    return downGhostP(world)
+  }
+  else if(world.seconds >= 46 && world.seconds <= 49){
+    return rightGhostP(world)
+  }
+  else if(world.seconds >= 49 && world.seconds <= 55){
+    return upGhostP(world)
+  }
+}
+
+function leftGhostR(world){
+  console.log("IzquierdaRed")
+  if(MAPA[world.ghosthr.y ][world.ghosthr.x - 1] !== 2){ //Movimiento Izquierda
+    if(MAPA[world.ghosthr.y ][world.ghosthr.x - 1] == 3){
+      MAPA[world.ghosthr.y ][world.ghosthr.x - 1] = 6
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 3
+    }
+    else if(MAPA[world.ghosthr.y ][world.ghosthr.x - 1] == 0){
+      MAPA[world.ghosthr.y ][world.ghosthr.x - 1] = 6 
       MAPA[world.ghosthr.y][world.ghosthr.x] = 0
-        
-     }else if(MAPA[world.ghosthr.y][world.ghosthr.x + 1] == 1){ //Verifica si esta el pacman
-        MAPA[world.ghosthr.y][world.ghosthr.x + 1] = 5//Mueve el fantasma 
-        MAPA[world.ghosthr.y][world.ghosthr.x] = 0 //Deja vacío
-        pacD.play();
-        pacD.volume = 0.06;
-        MAPA[world.pacman.y][world.pacman.x] = 0
-        if(MAPA[22][3] == "life"){
-          MAPA[22][3] = 0
+    }
+    else if(MAPA[world.ghosthr.y ][world.ghosthr.x - 1] == 9){
+      MAPA[world.ghosthr.y ][world.ghosthr.x - 1] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 9;
+    }
+     else if(MAPA[world.ghosthr.y ][world.ghosthr.x - 1] == 4){
+      MAPA[world.ghosthr.y ][world.ghosthr.x - 1] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 4;
+    }
+    else if(MAPA[world.ghosthr.y][world.ghosthr.x - 1] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghosthr.y][world.ghosthr.x - 1] = 6//Mueve el fantasma 
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0
+      }
+      MAPA[16][9] = 1
+      world.lifes = world.lifes - 1
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
         }
-        else if(MAPA[22][2] == "life"){
-          MAPA[22][2] = 0
+      })
+    }
+    else if(MAPA[world.ghosthr.y][world.ghosthr.x - 1] == 5){
+      MAPA[world.ghosthr.y ][world.ghosthr.x - 1] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else if(MAPA[world.ghosthr.y][world.ghosthr.x - 1] == 7){
+      MAPA[world.ghosthr.y ][world.ghosthr.x - 1] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else if(MAPA[world.ghosthr.y][world.ghosthr.x - 1] == 8){
+      MAPA[world.ghosthr.y ][world.ghosthr.x - 1] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else{
+      return make(world, {
+        ghosthr:{
+          x: world.ghosthr.x = world.ghosthr.x - 1,
+          y: world.ghosthr.y 
         }
-        else if(MAPA[22][1] == "life"){
-          MAPA[22][1] = 0
+      })
+    }
+  }
+}
+
+function rightGhostR(world){
+  console.log("DerechaRed")
+  if(MAPA[world.ghosthr.y ][world.ghosthr.x + 1] !== 2){ //Movimiento Derecha
+    if(MAPA[world.ghosthr.y ][world.ghosthr.x + 1] == 3){
+      MAPA[world.ghosthr.y ][world.ghosthr.x + 1] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 3;
+    }
+    else if(MAPA[world.ghosthr.y ][world.ghosthr.x + 1] == 0){
+      MAPA[world.ghosthr.y ][world.ghosthr.x + 1] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else if(MAPA[world.ghosthr.y ][world.ghosthr.x + 1] == 9){
+      MAPA[world.ghosthr.y ][world.ghosthr.x + 1] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 9;
+    }
+    else if(MAPA[world.ghosthr.y ][world.ghosthr.x + 1] == 4){
+      MAPA[world.ghosthr.y ][world.ghosthr.x + 1] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 4;
+    }
+    else if(MAPA[world.ghosthr.y][world.ghosthr.x + 1] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghosthr.y][world.ghosthr.x + 1] = 6//Mueve el fantasma 
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0;
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0;
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0;
+      }
+      MAPA[16][9] = 1;
+      world.lifes = world.lifes-1;
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
         }
-        MAPA[16][9] = 1
-        world.lifes = world.lifes -1
-        return make(world, {
-          pacman:{
-            x: world.pacman.x = 9,
-            y: world.pacman.y = 16 
-          }
-          
-        })
-      }else{
+      })
+    }
+    else if(MAPA[world.ghosthr.y][world.ghosthr.x + 1] == 5){
+      MAPA[world.ghosthr.y ][world.ghosthr.x + 1] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else if(MAPA[world.ghosthr.y][world.ghosthr.x + 1] == 7){
+      MAPA[world.ghosthr.y ][world.ghosthr.x + 1] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else if(MAPA[world.ghosthr.y][world.ghosthr.x + 1] == 8){
+      MAPA[world.ghosthr.y ][world.ghosthr.x + 1] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else{
       return make(world, {
         ghosthr:{
           x: world.ghosthr.x = world.ghosthr.x + 1,
           y: world.ghosthr.y 
         }
       })
+    }
   }
-  
+}
 
-  }else if(MAPA[world.ghosthr.y + 1 ][world.ghosthr.x ] !== 2 && world.seconds < 20){
-    if(MAPA[world.ghosthr.y + 1 ][world.ghosthr.x ] == 4){
-      MAPA[world.ghosthr.y + 1 ][world.ghosthr.x ] = 6 
-      MAPA[world.ghosthr.y][world.ghosthr.x] = 4
-    }else if(MAPA[world.ghosthr.y + 1 ][world.ghosthr.x ] == 3){
-      MAPA[world.ghosthr.y + 1][world.ghosthr.x ] = 6 
-      MAPA[world.ghosthr.y][world.ghosthr.x] = 3
-     }else if(MAPA[world.ghosthr.y + 1 ][world.ghosthr.x ] == 0){
-      MAPA[world.ghosthr.y + 1][world.ghosthr.x ] = 6
-      MAPA[world.ghosthr.y][world.ghosthr.x] = 0 
-    }else if(MAPA[world.ghosthr.y + 1 ][world.ghosthr.x ] == 9){
-      MAPA[world.ghosthr.y + 1][world.ghosthr.x ] = 6 
-      MAPA[world.ghosthr.y][world.ghosthr.x] = 9 
-
-
-  }else if(MAPA[world.ghosthr.y + 1][world.ghosthr.x] == 1){ //Verifica si esta el pacman
-    MAPA[world.ghosthr.y + 1][world.ghosthr.x] = 5//Mueve el fantasma 
-    MAPA[world.ghosthr.y][world.ghosthr.x] = 0 //Deja vacío
-    pacD.play();
-    pacD.volume = 0.06;
-    MAPA[world.pacman.y][world.pacman.x] = 0
-    if(MAPA[22][3] == "life"){
-      MAPA[22][3] = 0
+function downGhostR(world){
+  console.log("abajoRed")
+  if(MAPA[world.ghosthr.y + 1][world.ghosthr.x] !== 2){ //Movimiento Derecha
+    if(MAPA[world.ghosthr.y + 1][world.ghosthr.x] == 3){
+      MAPA[world.ghosthr.y + 1][world.ghosthr.x] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 3;
     }
-    else if(MAPA[22][2] == "life"){
-      MAPA[22][2] = 0
+    else if(MAPA[world.ghosthr.y + 1][world.ghosthr.x] == 4){
+      MAPA[world.ghosthr.y + 1][world.ghosthr.x] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 4;
     }
-    else if(MAPA[22][1] == "life"){
-      MAPA[22][1] = 0
+    else if(MAPA[world.ghosthr.y + 1][world.ghosthr.x] == 0){
+      MAPA[world.ghosthr.y + 1][world.ghosthr.x] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
     }
-    MAPA[16][9] = 1
-    world.lifes = world.lifes -1
-    return make(world, {
-      pacman:{
-        x: world.pacman.x = 9,
-        y: world.pacman.y = 16 
-      }
-      
-    })
-  }else{
-    return make(world, {
-        ghosthr:{
-          x: world.ghosthr.x ,
-          y: world.ghosthr.y = world.ghosthr.y + 1
-        }
-      })
-
-  }
-  }else if(MAPA[world.ghosthr.y ][world.ghosthr.x - 1] !== 2){ //mover izqq
-    if(MAPA[world.ghosthr.y ][world.ghosthr.x - 1] == 3){
-      MAPA[world.ghosthr.y ][world.ghosthr.x - 1] = 6 
-      MAPA[world.ghosthr.y][world.ghosthr.x] = 3
-     }else if(MAPA[world.ghosthr.y ][world.ghosthr.x - 1] == 0){
-      MAPA[world.ghosthr.y ][world.ghosthr.x - 1] = 6 
-      MAPA[world.ghosthr.y][world.ghosthr.x] = 0
-        
-     
-
     
-  }else if(MAPA[world.ghosthr.y][world.ghosthr.x - 1] == 1){ //Verifica si esta el pacman
-    MAPA[world.ghosthr.y][world.ghosthr.x - 1] = 5//Mueve el fantasma 
-    MAPA[world.ghosthr.y][world.ghosthr.x] = 0 //Deja vacío
-    pacD.play();
-    pacD.volume = 0.06;
-    MAPA[world.pacman.y][world.pacman.x] = 0
-    if(MAPA[22][3] == "life"){
-      MAPA[22][3] = 0
+    else if(MAPA[world.ghosthr.y + 1][world.ghosthr.x] == 9){
+      MAPA[world.ghosthr.y + 1][world.ghosthr.x] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 9;
     }
-    else if(MAPA[22][2] == "life"){
-      MAPA[22][2] = 0
-    }
-    else if(MAPA[22][1] == "life"){
-      MAPA[22][1] = 0
-    }
-    MAPA[16][9] = 1
-    world.lifes = world.lifes -1
-    return make(world, {
-      pacman:{
-        x: world.pacman.x = 9,
-        y: world.pacman.y = 16 
+    else if(MAPA[world.ghosthr.y + 1][world.ghosthr.x] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghosthr.y + 1][world.ghosthr.x] = 6//Mueve el fantasma 
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0;
       }
-      
-    })
-  }else{
-    return make(world, {
-        ghosthr:{
-          x: world.ghosthr.x = world.ghosthr.x - 1,
-          y: world.ghosthr.y 
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0;
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0;
+      }
+      MAPA[16][9] = 1;
+      world.lifes = world.lifes-1;
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
         }
       })
-
-  }
-  }else if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] !== 2  ){// movimiento arriba
-       if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] == 3){
-        MAPA[world.ghosthr.y - 1][world.ghosthr.x] = 6 
-        MAPA[world.ghosthr.y][world.ghosthr.x] = 3 
-       }else if(MAPA[world.ghosthr.y - 1 ][world.ghosthr.x ] == 4){
-      MAPA[world.ghosthr.y - 1 ][world.ghosthr.x ] = 6
-      MAPA[world.ghosthr.y][world.ghosthr.x] = 4
-        }else if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] == 1){ //Verifica si esta el pacman
-          MAPA[world.ghosthr.y - 1][world.ghosthr.x] = 5//Mueve el fantasma 
-          MAPA[world.ghosthr.y][world.ghosthr.x] = 0 //Deja vacío
-          pacD.play();
-          pacD.volume = 0.06;
-          MAPA[world.pacman.y][world.pacman.x] = 0
-          if(MAPA[22][3] == "life"){
-            MAPA[22][3] = 0
-          }
-          else if(MAPA[22][2] == "life"){
-            MAPA[22][2] = 0
-          }
-          else if(MAPA[22][1] == "life"){
-            MAPA[22][1] = 0
-          }
-          MAPA[16][9] = 1
-          world.lifes = world.lifes -1
-          return make(world, {
-            pacman:{
-              x: world.pacman.x = 9,
-              y: world.pacman.y = 16 
-            }
-            
-          })
-        }else{
+    }
+    else if(MAPA[world.ghosthr.y + 1][world.ghosthr.x] == 5){
+      MAPA[world.ghosthr.y + 1][world.ghosthr.x] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else if(MAPA[world.ghosthr.y + 1][world.ghosthr.x] == 7){
+      MAPA[world.ghosthr.y + 1][world.ghosthr.x] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else if(MAPA[world.ghosthr.y + 1][world.ghosthr.x] == 8){
+      MAPA[world.ghosthr.y + 1][world.ghosthr.x] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else{
       return make(world, {
         ghosthr:{
           x: world.ghosthr.x,
-          y: world.ghosthr.y = world.ghosthr.y - 1 
+          y: world.ghosthr.y  = world.ghosthr.y + 1 
         }
       })
     }
-
   }
-  
- 
- 
+}
+
+function upGhostR(world){
+  console.log("UpRed")
+  if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] !== 2){ //Movimiento Derecha
+    if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] == 3){
+      MAPA[world.ghosthr.y - 1][world.ghosthr.x] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 3;
+    }
+    else if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] == 0){
+      MAPA[world.ghosthr.y - 1][world.ghosthr.x] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] == 9){
+      MAPA[world.ghosthr.y - 1][world.ghosthr.x] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 9;
+    }
+    else if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] == 1){ //Verifica si esta el pacman
+      MAPA[world.ghosthr.y - 1][world.ghosthr.x] = 6//Mueve el fantasma 
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0 //Deja vacío
+      pacD.play();
+      pacD.volume = 0.6;
+      MAPA[world.pacman.y][world.pacman.x] = 0
+      if(MAPA[22][3] == "life"){
+        MAPA[22][3] = 0;
+      }
+      else if(MAPA[22][2] == "life"){
+        MAPA[22][2] = 0;
+      }
+      else if(MAPA[22][1] == "life"){
+        MAPA[22][1] = 0;
+      }
+      MAPA[16][9] = 1;
+      world.lifes = world.lifes-1;
+      return make(world, {
+        pacman:{
+          x: world.pacman.x = 9,
+          y: world.pacman.y = 16 
+        }
+      })
+    }
+    else if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] == 5){
+      MAPA[world.ghosthr.y - 1][world.ghosthr.x] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] == 7){
+      MAPA[world.ghosthr.y - 1][world.ghosthr.x] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else if(MAPA[world.ghosthr.y - 1][world.ghosthr.x] == 8){
+      MAPA[world.ghosthr.y - 1][world.ghosthr.x] = 6;
+      MAPA[world.ghosthr.y][world.ghosthr.x] = 0;
+    }
+    else{
+      return make(world, {
+        ghosthr:{
+          x: world.ghosthr.x,
+          y: world.ghosthr.y  = world.ghosthr.y - 1 
+        }
+      })
+    }
+  }
+}
+
+/**
+ * Contrato: <moveGhostR><world> ---> <?>
+ * Proposito: Recibe el mundo y mueve el fantasma rojo en un recorrido especifico dentro de este.
+ */
+function moveGhostR2(world){
+  if(world.seconds <= 5){
+    return rightGhostR(world)
+  }
+  else if(world.seconds >= 6 && world.seconds <= 7){
+    return upGhostR(world)
+  }
+  else if(world.seconds >= 6 && world.seconds <= 9){
+    return leftGhostR(world)
+  }
+  else if(world.seconds >= 8 && world.seconds <= 11){
+    return upGhostR(world)
+  }
+  else if(world.seconds >= 11 && world.seconds <= 13){
+    return leftGhostR(world)
+  }
+  else if(world.seconds >= 13 && world.seconds <= 14){
+    return downGhostR(world)
+  }
+  else if(world.seconds >= 15  && world.seconds <= 18){
+    return leftGhostR(world)
+  }
+  else if(world.seconds >= 18 && world.seconds <= 20){
+    return downGhostR(world)
+  }
+  else if(world.seconds >= 21 && world.seconds <= 23){
+    return leftGhostR(world)
+  }
+  else if(world.seconds >= 24 && world.seconds <= 25){
+    return downGhostR(world)
+  }
+  else if(world.seconds >= 26 && world.seconds <= 32){
+    return rightGhostR(world)
+  }
+  else if(world.seconds >= 33 && world.seconds <= 41){
+    return leftGhostR(world)
+  }
+  else if(world.seconds >= 41 && world.seconds <= 50){
+    return rightGhostR(world)
+  }
 }
 
 
@@ -1074,7 +1420,7 @@ function sketchProc(processing) {
       ghosthb:{x:2,y:5},
       ghostho:{x:9,y:10},
       ghosthp:{x:10,y:7},
-      ghosthr:{x:14,y:20},
+      ghosthr:{x:8,y:20},
       
       
     }
@@ -1683,11 +2029,9 @@ processing.onKeyEvent = function(world, keyCode){
    */
   processing.onTic = function(world){
     console.log(world.time)
-    
-    
-    
+  
     if(world.time % 0.5 == 0 ){
-    moveGhostP(world); moveGhostB(world);moveGhostR(world);moveGhostO(world);
+    moveGhostP2(world); moveGhostB2(world);moveGhostR2(world); moveGhostO2(world);
     }
 
    
